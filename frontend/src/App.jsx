@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
 import DashboardPage from './components/DashboardPage';
+import RegisterPage from './components/RegisterPage';
+import ForgetPage from './components/ForgetPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -11,6 +13,9 @@ function App() {
       {currentPage === 'home' && <HomePage onNavigate={setCurrentPage} />}
       {currentPage === 'login' && <LoginPage onNavigate={setCurrentPage} />}
       {currentPage === 'dashboard' && <DashboardPage onNavigate={setCurrentPage} />}
+      {currentPage === 'register' && <RegisterPage onNavigate={setCurrentPage} />}
+      {currentPage === 'forgot' && <ForgetPage onNavigate={setCurrentPage} />}
+
     </div>
   );
 }
