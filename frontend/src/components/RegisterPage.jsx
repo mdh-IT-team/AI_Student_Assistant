@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/style.css';
 
 export default function RegisterPage({ onNavigate }) {
   const handleSubmit = (e) => {
@@ -7,8 +6,9 @@ export default function RegisterPage({ onNavigate }) {
     // After registering, automatically send them to the login screen
     onNavigate('login');
   };
-
-  return (
+  
+  return ( 
+    
     <div className="login-container">
       <div className="login-card">
         <div style={{ fontSize: '3rem' }}>🤖</div>
@@ -34,12 +34,6 @@ export default function RegisterPage({ onNavigate }) {
           <button type="submit" className="btn-primary btn-block">Sign Up</button>
         </form>
 
-        <div className="divider">or</div>
-
-        <button className="btn-outline btn-block" onClick={() => onNavigate('dashboard')}>
-          Sign up with Google
-        </button>
-
         <p style={{ marginTop: '20px', fontSize: '0.9rem' }}>
           Already have an account?{' '}
           <span 
@@ -51,5 +45,5 @@ export default function RegisterPage({ onNavigate }) {
         </p>
       </div>
     </div>
-  );
+  )
 }
