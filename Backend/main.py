@@ -5,17 +5,24 @@ import uvicorn
 from dotenv import load_dotenv
 from supabase import create_client, Client
 
-load_dotenv()
+# --- FIX: Force Python to find the .env file next to main.py ---
+current_dir = os.path.dirname(os.path.abspath(__file__))
+dotenv_path = os.path.join(current_dir, ".env")
+load_dotenv(dotenv_path)
 
 URL: str = os.environ.get("SUPABASE_URL")
 KEY: str = os.environ.get("SUPABASE_KEY")
+
+# Safety validation check before client initialization
+if not URL or not KEY:
+    raise ValueError(f"Environment variables missing! Checked path: {dotenv_path}. Found URL: {URL}, KEY: {KEY}")
 
 supabase: Client = create_client(URL, KEY)
 
 app = FastAPI()
 
 # --- Import Security Dependency ---
-# This import has to happen AFTER supabase is initialized above
+# This import must happen AFTER supabase is initialized above to prevent circular injection
 from security import verify_jwt
 
 class LoginData(BaseModel):
@@ -36,7 +43,7 @@ def check_status():
 
 
 # =========================================================================
-# TASK: Test duplicate email validation & Registration
+# REQUIREMENT: Test duplicate email validation & Registration
 # =========================================================================
 @app.post("/auth/register")
 def register(user_data: LoginData):
@@ -49,7 +56,8 @@ def register(user_data: LoginData):
 
     except Exception as e:
         error_message = str(e)
-        # Catches standard string matches or common API error messages from Supabase
+
+        # Explicit validation catching for duplicate keys/emails
         if "already registered" in error_message.lower() or "already exists" in error_message.lower():
             return {"status": "Error", "message": "Validation Failed: This email is already registered."}
         else:
@@ -57,7 +65,7 @@ def register(user_data: LoginData):
 
 
 # =========================================================================
-# TASK: Create login query (JIRA Implementation Complete)
+# REQUIREMENT: Create login query (JIRA Implementation Complete)
 # =========================================================================
 @app.post("/auth/login")
 def login(user_data: LoginData):
@@ -86,13 +94,13 @@ def logout():
 
 
 # =========================================================================
-# TASK: Create user lookup query
-# Fetches public profile row from your database matching a specific user ID
+# REQUIREMENT: Create user lookup query
+# Fetches data from public.profiles table using a validated User UUID
 # =========================================================================
 @app.get("/api/users/{user_id}", dependencies=[Depends(verify_jwt)])
 def lookup_user_profile(user_id: str):
     try:
-        # Queries your public profiles table for the match
+        # Queries the custom database profiles table for matching entry
         response = supabase.table("profiles").select("*").eq("id", user_id).execute()
 
         if response.data and len(response.data) > 0:
