@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 import uvicorn
 from dotenv import load_dotenv
@@ -14,6 +14,9 @@ supabase: Client = create_client(URL, KEY)
 
 app = FastAPI()
 
+# --- Import Security Dependency ---
+# This import has to happen AFTER supabase is initialized above
+from security import verify_jwt
 
 class LoginData(BaseModel):
     email: str
@@ -70,9 +73,18 @@ def login(user_data: LoginData):
 def logout():
     try:
         supabase.auth.sign_out()
-        return {"message": "Logged out successfully. The frontend must delete the token."}
+        return {"message": "Logged out successfully."}
     except Exception as e:
         return {"status": "Error", "message": str(e)}
+
+# route example
+@app.get("/api/dashboard", dependencies=[Depends(verify_jwt)])
+def get_dashboard_data():
+
+    return {
+        "status": "Success",
+        "data": "This route is protected."
+    }
 
 
 if __name__ == "__main__":
