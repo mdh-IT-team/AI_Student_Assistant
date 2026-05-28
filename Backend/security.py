@@ -1,16 +1,16 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-# initiate token extraction from headers
+# Initiate token extraction from headers
 security = HTTPBearer()
 
 def verify_jwt(credentials: HTTPAuthorizationCredentials = Depends(security)):
-
+    # Local import prevents circular initialization blocks
     from main import supabase
 
     token = credentials.credentials
     try:
-        # get_user verify the signature and checks expiration
+        # get_user verifies the signature and checks expiration
         user_response = supabase.auth.get_user(token)
 
         if not user_response.user:
@@ -22,7 +22,7 @@ def verify_jwt(credentials: HTTPAuthorizationCredentials = Depends(security)):
         return user_response.user
 
     except Exception as e:
-        # catch specific verification errors
+        # Catches explicit validation failures from the underlying network layer
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Authentication failed: {str(e)}",
