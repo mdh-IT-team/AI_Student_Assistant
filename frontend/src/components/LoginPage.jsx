@@ -17,17 +17,18 @@ export default function LoginPage({ onNavigate }) {
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Email address</label>
-            <input type="email" placeholder="name@example.com" className="input-field" required />
+            <input type="email" placeholder="name@qxexample.com" className="input-field" required />
           </div>
 
           <div className="input-group">
             <label>Password</label>
-            <input type="password" placeholder="••••••••" className="input-field" required />
+            <input type="password" placeholder="Enter your password" className="input-field" required />
           </div>
 
           <div className="login-options">
-            <label><input type="checkbox" /> Remember me</label>
-            <a href="#forgot" style={{color: '#4f46e5', textDecoration: 'none'}}>Forgot Password?</a>
+            <a href="#forgot" 
+            onClick={() => onNavigate('forgot')} 
+            style={{color: '#4f46e5', textDecoration: 'none'}}>Forgot Password?</a>
           </div>
 
           <button type="submit" className="btn-primary btn-block">Login</button>
@@ -36,15 +37,17 @@ export default function LoginPage({ onNavigate }) {
        
 
         
-
         <p style={{marginTop: '20px', fontSize: '0.9rem'}}>
-          Don't have an account?
+          Don't have an account?<br></br>
+        
           <span 
           onClick={() => onNavigate('register')} 
-          style={{color: '#4f46e5', textDecoration: 'none'}}>
+
+            style={{color: '#4f46e5', textDecoration: 'none', cursor: 'pointer'}}>
             Register here
             </span>
         </p>
+      
       </div>
     </div>
   );
