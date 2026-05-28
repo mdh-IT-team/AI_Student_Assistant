@@ -17,7 +17,7 @@ export default function LoginPage({ onNavigate }) {
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Email address</label>
-            <input type="email" placeholder="name@example.com" className="input-field" required />
+            <input type="email" placeholder="name@qxexample.com" className="input-field" required />
           </div>
 
           <div className="input-group">
