@@ -4,7 +4,7 @@ This repository contains the full-stack code for the AI Student Assistant. The p
 
 ## Repository Structure
 * `/Backend` - FastAPI server, JWT security logic, and Supabase database integration.
-
+* `/frontend` - React (Vite) application, authentication state, and protected routing.
 
 ---
 
@@ -14,39 +14,81 @@ The backend handles user authentication, secure route management via JWTs, and d
 
 ### Prerequisites
 * **Python 3.8+**
-* A **Supabase** project 
+* A **Supabase** project
 
 ### 1. Environment Setup
 You need to provide your local server with your Supabase connection strings.
 Create a new file named `.env` inside the `Backend/` directory and add your credentials:
 
-    SUPABASE_URL="your-supabase-project-url-here"
-    SUPABASE_KEY="your-supabase-anon-key-here"
-
+```
+SUPABASE_URL="your-supabase-project-url-here"
+SUPABASE_KEY="your-supabase-anon-key-here"
+```
 
 ### 2. Installation (Virtual Environment)
 It is highly recommended to use a virtual environment so you don't clutter your global Python installation. Open your terminal and navigate to the backend folder:
 
-    cd Backend
+```
+cd Backend
+```
 
 Create and activate the virtual environment:
 
 **On Mac/Linux:**
-    python3 -m venv venv
-    source venv/bin/activate
+```
+python3 -m venv venv
+source venv/bin/activate
+```
 
 **On Windows:**
-    python -m venv venv
-    venv\Scripts\activate
+```
+python -m venv venv
+venv\Scripts\activate
+```
 
 With the virtual environment active, install the required dependencies:
-    pip install fastapi "uvicorn[standard]" supabase pydantic python-dotenv
+
+```
+pip install fastapi "uvicorn[standard]" supabase pydantic python-dotenv
+```
 
 ### 3. Running the Server
 Once everything is installed, start the FastAPI development server:
 
-    python3 main.py
+```
+python3 main.py
+```
 
-The backend server will run on `http://localhost:8000`. You can test the API endpoints and the JWT security guard interactively by visiting the built-in Swagger UI at **http://localhost:8000/docs**.
+The backend server will run on `http://localhost:8000`. You can test the API endpoints and the JWT security guard interactively by visiting the built-in Swagger UI at http://localhost:8000/docs.
 
 ---
+
+## Part 2: Frontend Setup (React + Vite)
+
+The frontend handles the user interface, authentication state management, and protected routing.
+
+### Prerequisites
+* **Node.js 18+**
+* **npm**
+
+### 1. Installation
+The following commands are the same on Mac, Linux, and Windows. Open your terminal and navigate to the frontend folder:
+
+```
+cd frontend
+```
+
+Install the required dependencies:
+
+```
+npm install
+```
+
+### 2. Running the App
+Once everything is installed, start the Vite development server:
+
+```
+npm run dev
+```
+
+The frontend will run on `http://localhost:5173`. Open this URL in your browser to use the application.
