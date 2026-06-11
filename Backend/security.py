@@ -28,3 +28,12 @@ def verify_jwt(credentials: HTTPAuthorizationCredentials = Depends(security)):
             detail=f"Authentication failed: {str(e)}",
             headers={"WWW-Authenticate": "Bearer"},
         )
+def require_admin(user = Depends(verify_jwt)):
+    role = user.user_metadata.get("role", "student")
+
+    if role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access Denied: Admin Privileges required",
+        )
+    return user
