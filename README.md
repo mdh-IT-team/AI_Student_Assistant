@@ -74,8 +74,8 @@ The following endpoints have been fully integrated, secured, and tested. You can
 **Protected Routes (Require JWT Authentication)**
 *Note: Requests to these endpoints must include a valid JWT in the headers: `Authorization: Bearer <your_token>`.*
 
-* **`GET /api/me`** : Extracts the authenticated user from the provided JWT and returns a safe data payload (ID, email, role, account creation date) without exposing sensitive background metadata. Handles invalid, missing, or expired tokens with a strict `401 Unauthorized` response.
-* **`GET /api/dashboard`** : A customized, fully authenticated route that queries the custom database schema. It joins core account information from the `users` table with specific academic details (semester, studying modules, teaching modules) from the `profile` table to deliver a compiled dashboard payload.
+* **`GET /api/me`** : Extracts the authenticated user info.
+* **`GET /api/dashboard`** : A route that queries the database schema. It joins core account information from the `users` table with specific academic details (semester, studying modules, teaching modules) from the `profile` table to deliver a compiled dashboard payload.
 ---
 
 ## Part 2: Frontend Setup (React + Vite)
