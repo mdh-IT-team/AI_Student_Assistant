@@ -61,6 +61,21 @@ python3 main.py
 
 The backend server will run on `http://localhost:8000`. You can test the API endpoints and the JWT security guard interactively by visiting the built-in Swagger UI at http://localhost:8000/docs.
 
+### 4. Verified API Endpoints
+The following endpoints have been fully integrated, secured, and tested. You can interact with these directly via the Swagger UI or your frontend client. 
+
+**Public Routes (No Authentication Required)**
+* **`GET /`** : Health check to confirm the server is running and actively connected to the Supabase instance.
+* **`GET /test`** : A simple developer test route to verify standard JSON responses.
+* **`POST /auth/register`** : Accepts a JSON payload (`email`, `password`) to create a new user. Includes explicit validation to catch and reject duplicate email registrations gracefully.
+* **`POST /auth/login`** : Authenticates a user and returns a secure JWT access token alongside the user ID.
+* **`POST /logout`** : Terminates the active Supabase authentication session.
+
+**Protected Routes (Require JWT Authentication)**
+*Note: Requests to these endpoints must include a valid JWT in the headers: `Authorization: Bearer <your_token>`.*
+
+* **`GET /api/me`** : Extracts the authenticated user from the provided JWT and returns a safe data payload (ID, email, role, account creation date) without exposing sensitive background metadata. Handles invalid, missing, or expired tokens with a strict `401 Unauthorized` response.
+* **`GET /api/dashboard`** : A customized, fully authenticated route that queries the custom database schema. It joins core account information from the `users` table with specific academic details (semester, studying modules, teaching modules) from the `profile` table to deliver a compiled dashboard payload.
 ---
 
 ## Part 2: Frontend Setup (React + Vite)
