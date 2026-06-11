@@ -1,11 +1,12 @@
 import os
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
 from dotenv import load_dotenv
 from supabase import create_client, Client
 
-# --- FIX: Force Python to find the .env file next to main.py ---
+# --- Force Python to find the .env file next to main.py ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(current_dir, ".env")
 load_dotenv(dotenv_path)
@@ -21,13 +22,23 @@ supabase: Client = create_client(URL, KEY)
 
 app = FastAPI()
 
+# --- CORS Configuration to allow React frontend ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # --- Import Security Dependency ---
-# This import must happen AFTER supabase is initialized above to prevent circular injection
 from security import verify_jwt
+
 
 class LoginData(BaseModel):
     email: str
     password: str
+
 
 @app.get("/test")
 def test_route():
@@ -36,6 +47,7 @@ def test_route():
         "message": "The test route is working perfectly!",
         "developer": "Alex"
     }
+
 
 @app.get("/")
 def check_status():
@@ -50,13 +62,13 @@ def register(user_data: LoginData):
     try:
         response = supabase.auth.sign_up({
             "email": user_data.email,
-            "password": user_data.password
+            "password": user_data.password,
+            "role": "student",
         })
         return {"status": "Success", "message": "User registered successfully!"}
 
     except Exception as e:
         error_message = str(e)
-
         # Explicit validation catching for duplicate keys/emails
         if "already registered" in error_message.lower() or "already exists" in error_message.lower():
             return {"status": "Error", "message": "Validation Failed: This email is already registered."}
@@ -65,7 +77,7 @@ def register(user_data: LoginData):
 
 
 # =========================================================================
-# REQUIREMENT: Create login query (JIRA Implementation Complete)
+# REQUIREMENT: Create login query
 # =========================================================================
 @app.post("/auth/login")
 def login(user_data: LoginData):
@@ -81,6 +93,7 @@ def login(user_data: LoginData):
             "user_id": response.user.id
         }
     except Exception as e:
+        print(f"DEBUG - Real Supabase Error: {str(e)}")
         return {"status": "Error", "message": "Wrong email or password"}
 
 
@@ -93,14 +106,31 @@ def logout():
         return {"status": "Error", "message": str(e)}
 
 
+# get me api
+@app.get("/api/me")
+def get_current_user(current_user=Depends(verify_jwt)):
+
+
+    safe_user_data = {
+        "id": current_user.id,
+        "email": current_user.email,
+        "role": current_user.user_metadata.get("role", "student"),
+        "created_at": current_user.created_at,
+        "last_sign_in_at": current_user.last_sign_in_at
+    }
+
+    return {
+        "status": "Success",
+        "user": safe_user_data
+    }
+
+
 # =========================================================================
 # REQUIREMENT: Create user lookup query
-# Fetches data from public.profiles table using a validated User UUID
 # =========================================================================
 @app.get("/api/users/{user_id}", dependencies=[Depends(verify_jwt)])
 def lookup_user_profile(user_id: str):
     try:
-        # Queries the custom database profiles table for matching entry
         response = supabase.table("profiles").select("*").eq("id", user_id).execute()
 
         if response.data and len(response.data) > 0:
@@ -115,13 +145,38 @@ def lookup_user_profile(user_id: str):
 
 
 # Protected route example
-@app.get("/api/dashboard", dependencies=[Depends(verify_jwt)])
-def get_dashboard_data():
-    return {
-        "status": "Success",
-        "data": "This route is protected."
-    }
+@app.get("/api/dashboard")
+def get_dashboard_data(current_user = Depends(verify_jwt)):
 
+    try:
+        # fetch info from user table
+        user_response = supabase.schema("ai_student").table("users").select("name, email, date_createed").eq("id", current_user.id).execute()
+        user_info = user_response.data[0] if user_response.data else {"name": "Student", "email": current_user.email}
+
+        # academic details
+        profile_response = supabase.table("profile").select("role, semester, module_study, modules_teach").eq("id", current_user.id).execute()
+        user_profile = profile_response.data[0] if profile_response.data else {}
+
+        # compiled info
+        return {
+            "status": "Success",
+            "dashboard_data": {
+                "welcome_message": f"Welcome back, {user_info.get('name')}!",
+                "account_info": {
+                    "email": user_info.get("email"),
+                    "member_since": user_info.get("date_createed")
+                },
+                "academic_profile": {
+                    "role": user_profile.get("role", "student"),
+                    "semester": user_profile.get("semester", "Not specified"),
+                    "studying": user_profile.get("module_study", "None"),
+                    "teaching": user_profile.get("modules_teach", "None")
+                }
+            }
+        }
+
+    except Exception as e:
+        return {"status": "Error", "message": f"Failed to load dashboard data: {str(e)}"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
