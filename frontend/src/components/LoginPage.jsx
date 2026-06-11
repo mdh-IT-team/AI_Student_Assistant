@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { loginUser } from '../services/api.js';
 import '../styles/style.css';
 
 export default function LoginPage({ onNavigate }) {
-  const handleSubmit = (e) => {
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); 
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try{
+      await loginUser(email, password);
+
+    
     onNavigate('dashboard');
+  } catch (err) {
+    setError(err);
+  } finally {
+    setLoading(false);
+  }
   };
 
   return (
@@ -17,12 +36,18 @@ export default function LoginPage({ onNavigate }) {
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Email address</label>
-            <input type="email" placeholder="name@qxexample.com" className="input-field" required />
+            <input type="email" placeholder="name@example.com" className="input-field" 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required disabled={loading} />
           </div>
 
           <div className="input-group">
             <label>Password</label>
-            <input type="password" placeholder="Enter your password" className="input-field" required />
+            <input type="password" placeholder="Enter your password" className="input-field" 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required disabled={loading} />
           </div>
 
           <div className="login-options">
@@ -31,7 +56,9 @@ export default function LoginPage({ onNavigate }) {
             style={{color: '#4f46e5', textDecoration: 'none'}}>Forgot Password?</a>
           </div>
 
-          <button type="submit" className="btn-primary btn-block">Login</button>
+          <button type="submit" className="btn-primary btn-block" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
 
        

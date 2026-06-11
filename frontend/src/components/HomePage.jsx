@@ -7,9 +7,9 @@ export default function HomePage({ onNavigate }) {
       <nav className="navbar">
         <div className="logo">🤖 AI Student Assistant</div>
         <ul className="nav-links">
-          <li><a href="#home" className="active">Home</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#about">About</a></li>
+          <li><span onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>Home</span></li>
+          <li><span onClick={() => onNavigate('features')} style={{ cursor: 'pointer' }}>Features</span></li>
+          <li><span onClick={() => onNavigate('about')} style={{ cursor: 'pointer' }}>About</span></li>
         </ul>
         <button className="btn-primary" onClick={() => onNavigate('login')}>Login</button>
       </nav>
