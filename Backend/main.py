@@ -31,8 +31,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Import Security Dependency ---
-from security import verify_jwt
+# --- Import Security Dependencies ---
+from security import verify_jwt, RoleChecker
+
+# 1. Instantiate the Security Guards
+# Admins can access everything. Teachers and Students are strictly separated.
+allow_admin = RoleChecker(["admin"])
+allow_teacher = RoleChecker(["teacher", "admin"])
+allow_student = RoleChecker(["student", "admin"])
 
 
 class LoginData(BaseModel):
@@ -109,8 +115,6 @@ def logout():
 # get me api
 @app.get("/api/me")
 def get_current_user(current_user=Depends(verify_jwt)):
-
-
     safe_user_data = {
         "id": current_user.id,
         "email": current_user.email,
@@ -131,7 +135,7 @@ def get_current_user(current_user=Depends(verify_jwt)):
 @app.get("/api/users/{user_id}", dependencies=[Depends(verify_jwt)])
 def lookup_user_profile(user_id: str):
     try:
-        response = supabase.table("profiles").select("*").eq("id", user_id).execute()
+        response = supabase.schema("ai_student").table("profile").select("*").eq("id", user_id).execute()
 
         if response.data and len(response.data) > 0:
             return {
@@ -144,39 +148,61 @@ def lookup_user_profile(user_id: str):
         return {"status": "Error", "message": str(e)}
 
 
-# Protected route example
-@app.get("/api/dashboard")
-def get_dashboard_data(current_user = Depends(verify_jwt)):
+# dashboard validation
+@app.get("/api/dashboard/admin", dependencies=[Depends(allow_admin)])
+def get_admin_dashboard(current_user = Depends(verify_jwt)):
 
     try:
-        # fetch info from user table
-        user_response = supabase.schema("ai_student").table("users").select("name, email, date_createed").eq("id", current_user.id).execute()
-        user_info = user_response.data[0] if user_response.data else {"name": "Student", "email": current_user.email}
-
-        # academic details
-        profile_response = supabase.table("profile").select("role, semester, module_study, modules_teach").eq("id", current_user.id).execute()
-        user_profile = profile_response.data[0] if profile_response.data else {}
-
-        # compiled info
         return {
             "status": "Success",
-            "dashboard_data": {
-                "welcome_message": f"Welcome back, {user_info.get('name')}!",
-                "account_info": {
-                    "email": user_info.get("email"),
-                    "member_since": user_info.get("date_createed")
-                },
-                "academic_profile": {
-                    "role": user_profile.get("role", "student"),
-                    "semester": user_profile.get("semester", "Not specified"),
-                    "studying": user_profile.get("module_study", "None"),
-                    "teaching": user_profile.get("modules_teach", "None")
-                }
+            "dashboard_type": "Admin",
+            "data": {
+                "message": "Welcome to the Admin Control Panel.",
+                "user_email": current_user.email
             }
         }
-
     except Exception as e:
-        return {"status": "Error", "message": f"Failed to load dashboard data: {str(e)}"}
+        return {"status": "Error", "message": str(e)}
+
+# teacher dashboard
+@app.get("/api/dashboard/teacher", dependencies=[Depends(allow_teacher)])
+def get_teacher_dashboard(current_user = Depends(verify_jwt)):
+    try:
+
+        profile_response = supabase.schema("ai_student").table("profile").select("modules_teach").eq("id", current_user.id).execute()
+        teacher_data = profile_response.data[0] if profile_response.data else {}
+
+        return {
+            "status": "Success",
+            "dashboard_type": "Teacher",
+            "data": {
+                "message": "Welcome to the Teacher Portal.",
+                "teaching_modules": teacher_data.get("modules_teach", "None assigned")
+            }
+        }
+    except Exception as e:
+        return {"status": "Error", "message": str(e)}
+
+# student dashboard
+@app.get("/api/dashboard/student", dependencies=[Depends(allow_student)])
+def get_student_dashboard(current_user = Depends(verify_jwt)):
+
+    try:
+        #student data
+        profile_response = supabase.schema("ai_student").table("profile").select("semester, module_study").eq("id", current_user.id).execute()
+        student_data = profile_response.data[0] if profile_response.data else {}
+
+        return {
+            "status": "Success",
+            "dashboard_type": "Student",
+            "data": {
+                "message": "Welcome to the Student Dashboard.",
+                "semester": student_data.get("semester", "Not specified"),
+                "studying_modules": student_data.get("module_study", "None assigned")
+            }
+        }
+    except Exception as e:
+        return {"status": "Error", "message": str(e)}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
