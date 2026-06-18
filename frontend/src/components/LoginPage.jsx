@@ -28,7 +28,7 @@ export default function LoginPage({ onNavigate }) {
         localStorage.setItem('token', data.token);
 
         // Navigate to the secure dashboard
-        onNavigate('dashboard');
+        onNavigate('admindashboard');
       } else {
         // Show errors from the backend (like "Wrong email or password")
         setError(data.message || 'Login failed. Please check your credentials.');
