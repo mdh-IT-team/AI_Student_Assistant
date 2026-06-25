@@ -1,0 +1,16 @@
+# Python
+Backend/venv/
+__pycache__/
+*.pyc
+
+# Secrets
+.env
+Backend/.env
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Build output
+frontend/dist/
+.DS_Store
