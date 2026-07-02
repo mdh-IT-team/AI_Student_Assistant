@@ -63,7 +63,7 @@ def check_status():
 @app.post("/auth/register")
 def register(user_data: LoginData):
     try:
-        # wrapping the role inside options.data
+        # wrapping the role inside  options.data
         response = supabase.auth.sign_up({
             "email": user_data.email,
             "password": user_data.password,
