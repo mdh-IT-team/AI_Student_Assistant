@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/style.css';
 
-export default function DashboardPage({ onNavigate }) {
+export default function DashboardTeacherPage({ onNavigate }) {
   return (
     <div className="dashboard-layout">
       <aside className="sidebar">
@@ -9,12 +9,11 @@ export default function DashboardPage({ onNavigate }) {
           <div className="logo">🤖 AI Student Assistant</div>
           <ul className="sidebar-menu">
             <li><a href="#dash" className="sidebar-item active">📊 Dashboard</a></li>
-            <li><a href="#tutor" className="sidebar-item">🔮 AI Tutor</a></li>
-            <li><a href="#tasks" className="sidebar-item">📋 Tasks</a></li>
-            <li><a href="#planner" className="sidebar-item">📅 Study Planner</a></li>
-            <li><a href="#notes" className="sidebar-item">📝 Notes</a></li>
-            <li><a href="#progress" className="sidebar-item">📈 Progress</a></li>
-            <li><a href="#resources" className="sidebar-item">📁 Resources</a></li>
+            <li><a href="#modules" className="sidebar-item">📚 My Modules</a></li>
+            <li><a href="#students" className="sidebar-item">👥 My Students</a></li>
+            <li><a href="#grading" className="sidebar-item">📝 Grading</a></li>
+            <li><a href="#aichat" className="sidebar-item">🔮 AI Assistant</a></li>
+            <li><a href="#progress" className="sidebar-item">📈 Class Progress</a></li>
             <li><a href="#settings" className="sidebar-item">⚙️ Settings</a></li>
           </ul>
         </div>
@@ -28,42 +27,42 @@ export default function DashboardPage({ onNavigate }) {
             <span>🔔</span>
             <div className="profile-widget">
               <div className="avatar"></div>
-              <span>Hi, Alex! ▾</span>
+              <span>Hi, Prof. Smith! ▾</span>
             </div>
           </div>
         </header>
 
         <div className="welcome-widget">
-          <h2>Hello, Alex! 👋</h2>
-          <p style={{color: '#64748b'}}>Let's make today productive!</p>
+          <h2>Hello, Prof. Smith! 👋</h2>
+          <p style={{color: '#64748b'}}>Here's what's happening in your classes today.</p>
         </div>
 
         <section className="stats-grid">
           <div className="stat-card">
+            <h3>32</h3>
+            <p>Total Students 👥</p>
+          </div>
+          <div className="stat-card">
             <h3>3</h3>
-            <p>Tasks Due Today 📋</p>
+            <p>Modules Teaching 📚</p>
           </div>
           <div className="stat-card">
-            <h3>2</h3>
-            <p>Classes Today 🗓️</p>
+            <h3>8</h3>
+            <p>To Grade 📝</p>
           </div>
           <div className="stat-card">
-            <h3>85%</h3>
+            <h3>74%</h3>
             <p>Average Progress ✅</p>
-          </div>
-          <div className="stat-card">
-            <h3>12</h3>
-            <p>Study Streak (Days) 🔥</p>
           </div>
         </section>
 
         <div className="dashboard-grid">
           <div className="dashboard-panel">
             <div className="panel-header">
-              <h3>AI Tutor</h3>
+              <h3>AI Assistant</h3>
             </div>
             <p style={{fontSize: '0.9rem', color: '#64748b', marginBottom: '15px'}}>
-              Hi Alex! What would you like to learn today?
+              Hi Prof. Smith! Ask me to summarize class performance or draft feedback.
             </p>
             <div className="chat-input-container">
               <input type="text" placeholder="Ask me anything..." className="chat-input" />
@@ -73,39 +72,46 @@ export default function DashboardPage({ onNavigate }) {
 
           <div className="dashboard-panel">
             <div className="panel-header">
-              <h3>Today's Tasks</h3>
-              <a href="#tasks">View all</a>
+              <h3>Student Progress</h3>
+              <a href="#students">View all</a>
             </div>
             <div className="task-item">
               <div>
-                <input type="checkbox" id="t1" /> <label htmlFor="t1">Math Assignment</label>
-                <div style={{fontSize: '0.75rem', color: '#64748b'}}>Due in 2 hours</div>
+                <label>Anna Petrović</label>
+                <div style={{fontSize: '0.75rem', color: '#64748b'}}>Web Development</div>
               </div>
-              <span className="badge high">High</span>
+              <span className="badge low">On track</span>
             </div>
             <div className="task-item">
               <div>
-                <input type="checkbox" id="t2" /> <label htmlFor="t2">Science Project</label>
-                <div style={{fontSize: '0.75rem', color: '#64748b'}}>Due tomorrow</div>
+                <label>Marko Jovanović</label>
+                <div style={{fontSize: '0.75rem', color: '#64748b'}}>Databases</div>
               </div>
-              <span className="badge medium">Medium</span>
+              <span className="badge medium">Behind</span>
+            </div>
+            <div className="task-item">
+              <div>
+                <label>Ivana Nikolić</label>
+                <div style={{fontSize: '0.75rem', color: '#64748b'}}>Web Development</div>
+              </div>
+              <span className="badge high">Needs attention</span>
             </div>
           </div>
         </div>
 
-        <h3>Recommended For You</h3>
+        <h3>Submissions to Review</h3>
         <section className="recommendations-grid" style={{marginTop: '15px'}}>
           <div className="rec-card">
-            <h4>How to Solve Quadratic Equations</h4>
-            <p style={{fontSize: '0.8rem', color: '#64748b', marginTop: '5px'}}>Video • 15 min</p>
+            <h4>Assignment 3 — Web Development</h4>
+            <p style={{fontSize: '0.8rem', color: '#64748b', marginTop: '5px'}}>5 submissions pending</p>
           </div>
           <div className="rec-card">
-            <h4>Study Tips for Better Focus</h4>
-            <p style={{fontSize: '0.8rem', color: '#64748b', marginTop: '5px'}}>Article • 8 min</p>
+            <h4>Quiz 2 — Databases</h4>
+            <p style={{fontSize: '0.8rem', color: '#64748b', marginTop: '5px'}}>2 submissions pending</p>
           </div>
           <div className="rec-card">
-            <h4>Time Management Guide</h4>
-            <p style={{fontSize: '0.8rem', color: '#64748b', marginTop: '5px'}}>PDF • 12 min</p>
+            <h4>Project Draft — Algorithms</h4>
+            <p style={{fontSize: '0.8rem', color: '#64748b', marginTop: '5px'}}>1 submission pending</p>
           </div>
         </section>
       </main>
