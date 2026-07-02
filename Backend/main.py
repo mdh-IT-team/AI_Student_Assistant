@@ -60,22 +60,23 @@ def check_status():
     return {"message": "The AI Student Assistant server is running and connected to Supabase!"}
 
 
-# =========================================================================
-# REQUIREMENT: Test duplicate email validation & Registration
-# =========================================================================
 @app.post("/auth/register")
 def register(user_data: LoginData):
     try:
+        # wrapping the role inside options.data
         response = supabase.auth.sign_up({
             "email": user_data.email,
             "password": user_data.password,
-            "role": "student",
+            "options": {
+                "data": {
+                    "role": "student"
+                }
+            }
         })
         return {"status": "Success", "message": "User registered successfully!"}
 
     except Exception as e:
         error_message = str(e)
-        # Explicit validation catching for duplicate keys/emails
         if "already registered" in error_message.lower() or "already exists" in error_message.lower():
             return {"status": "Error", "message": "Validation Failed: This email is already registered."}
         else:
@@ -83,7 +84,7 @@ def register(user_data: LoginData):
 
 
 # =========================================================================
-# REQUIREMENT: Create login query
+# login query
 # =========================================================================
 @app.post("/auth/login")
 def login(user_data: LoginData):
@@ -130,7 +131,7 @@ def get_current_user(current_user=Depends(verify_jwt)):
 
 
 # =========================================================================
-# REQUIREMENT: Create user lookup query
+# user lookup query
 # =========================================================================
 @app.get("/api/users/{user_id}", dependencies=[Depends(verify_jwt)])
 def lookup_user_profile(user_id: str):
@@ -151,7 +152,6 @@ def lookup_user_profile(user_id: str):
 # dashboard validation
 @app.get("/api/dashboard/admin", dependencies=[Depends(allow_admin)])
 def get_admin_dashboard(current_user = Depends(verify_jwt)):
-
     try:
         return {
             "status": "Success",
@@ -168,7 +168,6 @@ def get_admin_dashboard(current_user = Depends(verify_jwt)):
 @app.get("/api/dashboard/teacher", dependencies=[Depends(allow_teacher)])
 def get_teacher_dashboard(current_user = Depends(verify_jwt)):
     try:
-
         profile_response = supabase.schema("ai_student").table("profile").select("modules_teach").eq("id", current_user.id).execute()
         teacher_data = profile_response.data[0] if profile_response.data else {}
 
@@ -186,7 +185,6 @@ def get_teacher_dashboard(current_user = Depends(verify_jwt)):
 # student dashboard
 @app.get("/api/dashboard/student", dependencies=[Depends(allow_student)])
 def get_student_dashboard(current_user = Depends(verify_jwt)):
-
     try:
         #student data
         profile_response = supabase.schema("ai_student").table("profile").select("semester, module_study").eq("id", current_user.id).execute()
