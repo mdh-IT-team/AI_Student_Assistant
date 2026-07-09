@@ -1,6 +1,5 @@
 // Simple JWT auth helpers backed by localStorage.
 
-// Decode a JWT payload (middle part) without any library.
 function decodeToken(token) {
   try {
     const payload = token.split('.')[1];
@@ -10,7 +9,6 @@ function decodeToken(token) {
   }
 }
 
-// Is the token present and not expired?
 export function isTokenValid() {
   const token = localStorage.getItem('token');
   if (!token) return false;
@@ -18,10 +16,9 @@ export function isTokenValid() {
   const payload = decodeToken(token);
   if (!payload || !payload.exp) return false;
 
-  // exp is in seconds; Date.now() is in ms.
   const notExpired = payload.exp * 1000 > Date.now();
   if (!notExpired) {
-    localStorage.removeItem('token'); // clean up expired token
+    localStorage.removeItem('token');
   }
   return notExpired;
 }
@@ -32,4 +29,31 @@ export function getToken() {
 
 export function logout() {
   localStorage.removeItem('token');
+}
+
+// Ask the backend who this token belongs to, and return their role.
+export async function fetchRole() {
+  const token = getToken();
+  if (!token) return null;
+
+  try {
+    const response = await fetch('http://localhost:8000/api/me', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    if (data.status === 'Success') {
+      return data.user.role;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+// Map a role to its dashboard page key.
+export function pageForRole(role) {
+  if (role === 'admin') return 'admindashboard';
+  if (role === 'teacher') return 'teacherdashboard';
+  if (role === 'student') return 'studentdashboard';
+  return 'login'; // unknown / no role
 }

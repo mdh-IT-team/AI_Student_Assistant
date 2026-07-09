@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/style.css';
+import { fetchRole, pageForRole } from '../auth';
 
 export default function LoginPage({ onNavigate }) {
   // 1. Add state to hold the input values and potential errors
@@ -27,8 +28,13 @@ export default function LoginPage({ onNavigate }) {
         // CRITICAL: Save the JWT token to the browser's local storage
         localStorage.setItem('token', data.token);
 
-        // Navigate to the secure dashboard
-        onNavigate('admindashboard');
+        // Ask the backend for this user's role, then route accordingly.
+        const role = await fetchRole();
+        if (role) {
+          onNavigate(pageForRole(role));
+        } else {
+          setError('Logged in, but could not determine your role.');
+        }
       } else {
         // Show errors from the backend (like "Wrong email or password")
         setError(data.message || 'Login failed. Please check your credentials.');
