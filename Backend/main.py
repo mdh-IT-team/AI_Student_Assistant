@@ -7,7 +7,6 @@ import uvicorn
 from dotenv import load_dotenv
 from supabase import create_client, Client
 
-# --- Force Python to find the .env file next to main.py ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(current_dir, ".env")
 load_dotenv(dotenv_path)
@@ -16,7 +15,6 @@ URL: str = os.environ.get("SUPABASE_URL")
 KEY: str = os.environ.get("SUPABASE_KEY")
 SERVICE_ROLE_KEY: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
-# Safety validation check before client initialization
 if not URL or not KEY:
     raise ValueError(f"Environment variables missing! Checked path: {dotenv_path}. Found URL: {URL}, KEY: {KEY}")
 if not SERVICE_ROLE_KEY:
@@ -26,18 +24,13 @@ if not SERVICE_ROLE_KEY:
         "and add it to Backend/.env."
     )
 
-# Public client: respects RLS, safe for anything acting "as the logged-in user".
+
 supabase: Client = create_client(URL, KEY)
 
-# Admin client: SERVICE ROLE KEY bypasses RLS entirely. Server-side only —
-# never expose this key or this client to the frontend. Use it only for
-# system-level writes the backend itself is responsible for (mirroring the
-# Auth identity into ai_student.users/profile, admin-only user creation).
 supabase_admin: Client = create_client(URL, SERVICE_ROLE_KEY)
 
 app = FastAPI()
 
-# --- CORS Configuration to allow React frontend ---
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -46,11 +39,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Import Security Dependencies ---
 from security import verify_jwt, RoleChecker
 
-# 1. Instantiate the Security Guards
-# Admins can access everything. Teachers and Students are strictly separated.
 allow_admin = RoleChecker(["admin"])
 allow_teacher = RoleChecker(["teacher", "admin"])
 allow_student = RoleChecker(["student", "admin"])
@@ -101,19 +91,10 @@ def register(user_data: RegisterData):
         else:
             return {"status": "Error", "message": error_message}
 
-    # --- Mirror the Supabase Auth identity into ai_student.users -----------
-    # We reuse the SAME uuid Supabase Auth just generated so that
-    # ai_student.profile.id (FK profile_id_fkey -> users.id) can join on it.
-    # NOTE: if either insert below fails, the Auth user already exists but
-    # has no matching ai_student.users/profile row (orphaned account).
-    # Supabase has no cross-service transaction for this, so on failure we
-    # surface a distinct error telling the caller manual cleanup is needed.
     new_user_id = response.user.id
 
     try:
-        # NOTE: uses supabase_admin (service role) — RLS blocks these inserts
-        # under the anon key, and there's no logged-in session yet to satisfy
-        # an "auth.uid() = id" style policy at this point in the flow anyway.
+    
         supabase_admin.schema("ai_student").table("users").insert({
             "id": new_user_id,
             "name": user_data.full_name,
@@ -122,10 +103,6 @@ def register(user_data: RegisterData):
             "date_created": date.today().isoformat()
         }).execute()
 
-        # Create the matching academic profile row (empty until an admin/
-        # teacher assigns semester or modules).
-        # profile.id shares the same uuid as users.id (FK: profile_id_fkey),
-        # mirroring the classic "profiles.id -> auth.users.id" pattern.
         supabase_admin.schema("ai_student").table("profile").insert({
             "id": new_user_id,
             "role": "student",
@@ -146,9 +123,6 @@ def register(user_data: RegisterData):
     return {"status": "Success", "message": "User registered successfully!"}
 
 
-# =========================================================================
-# login query
-# =========================================================================
 @app.post("/auth/login")
 def login(user_data: LoginData):
     try:
@@ -176,7 +150,6 @@ def logout():
         return {"status": "Error", "message": str(e)}
 
 
-# get me api
 @app.get("/api/me")
 def get_current_user(current_user=Depends(verify_jwt)):
     safe_user_data = {
@@ -192,10 +165,6 @@ def get_current_user(current_user=Depends(verify_jwt)):
         "user": safe_user_data
     }
 
-
-# =========================================================================
-# user lookup query
-# =========================================================================
 @app.get("/api/users/{user_id}", dependencies=[Depends(verify_jwt)])
 def lookup_user_profile(user_id: str):
     try:
@@ -212,7 +181,6 @@ def lookup_user_profile(user_id: str):
         return {"status": "Error", "message": str(e)}
 
 
-# dashboard validation
 @app.get("/api/dashboard/admin", dependencies=[Depends(allow_admin)])
 def get_admin_dashboard(current_user = Depends(verify_jwt)):
     try:
@@ -227,7 +195,6 @@ def get_admin_dashboard(current_user = Depends(verify_jwt)):
     except Exception as e:
         return {"status": "Error", "message": str(e)}
 
-# teacher dashboard
 @app.get("/api/dashboard/teacher", dependencies=[Depends(allow_teacher)])
 def get_teacher_dashboard(current_user = Depends(verify_jwt)):
     try:
@@ -245,11 +212,10 @@ def get_teacher_dashboard(current_user = Depends(verify_jwt)):
     except Exception as e:
         return {"status": "Error", "message": str(e)}
 
-# student dashboard
 @app.get("/api/dashboard/student", dependencies=[Depends(allow_student)])
 def get_student_dashboard(current_user = Depends(verify_jwt)):
     try:
-        #student data
+        
         profile_response = supabase.schema("ai_student").table("profile").select("semester, module_study").eq("id", current_user.id).execute()
         student_data = profile_response.data[0] if profile_response.data else {}
 
