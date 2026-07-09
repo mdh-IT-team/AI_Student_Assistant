@@ -3,17 +3,17 @@ import '../styles/style.css';
 import { fetchRole, pageForRole } from '../auth';
 
 export default function LoginPage({ onNavigate }) {
-  // 1. Add state to hold the input values and potential errors
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous errors
+    setError('');
+    setLoading(true);
 
     try {
-      // Send the login request to the FastAPI backend
       const response = await fetch('http://localhost:8000/auth/login', {
         method: 'POST',
         headers: {
@@ -25,7 +25,7 @@ export default function LoginPage({ onNavigate }) {
       const data = await response.json();
 
       if (data.status === 'Success') {
-        // CRITICAL: Save the JWT token to the browser's local storage
+        // Save the JWT token
         localStorage.setItem('token', data.token);
 
         // Ask the backend for this user's role, then route accordingly.
@@ -36,11 +36,12 @@ export default function LoginPage({ onNavigate }) {
           setError('Logged in, but could not determine your role.');
         }
       } else {
-        // Show errors from the backend (like "Wrong email or password")
         setError(data.message || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
       setError('Could not connect to the server. Is the backend running?');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,7 +52,6 @@ export default function LoginPage({ onNavigate }) {
         <h2>Welcome Back!</h2>
         <p>Login to continue your learning journey.</p>
 
-        {/* Display errors if they happen */}
         {error && <p style={{ color: 'red', fontSize: '0.85rem', marginBottom: '10px' }}>{error}</p>}
 
         <form onSubmit={handleSubmit}>
@@ -64,6 +64,7 @@ export default function LoginPage({ onNavigate }) {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
           </div>
 
@@ -76,6 +77,7 @@ export default function LoginPage({ onNavigate }) {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
             />
           </div>
 
@@ -85,19 +87,19 @@ export default function LoginPage({ onNavigate }) {
             style={{color: '#4f46e5', textDecoration: 'none'}}>Forgot Password?</a>
           </div>
 
-          <button type="submit" className="btn-primary btn-block">Login</button>
+          <button type="submit" className="btn-primary btn-block" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
 
         <p style={{marginTop: '20px', fontSize: '0.9rem'}}>
           Don't have an account?<br></br>
-
           <span
           onClick={() => onNavigate('register')}
             style={{color: '#4f46e5', textDecoration: 'none', cursor: 'pointer'}}>
             Register here
             </span>
         </p>
-      
       </div>
     </div>
   );
