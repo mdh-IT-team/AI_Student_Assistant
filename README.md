@@ -23,7 +23,13 @@ Create a new file named `.env` inside the `Backend/` directory and add your cred
 ```
 SUPABASE_URL="your-supabase-project-url-here"
 SUPABASE_KEY="your-supabase-anon-key-here"
+SUPABASE_SERVICE_ROLE_KEY="your-supabase-service-role-key-here"
 ```
+
+`SUPABASE_SERVICE_ROLE_KEY` comes from Project Settings -> API -> the `service_role` secret.
+It bypasses Row Level Security and is used **only** for backend-owned system writes
+(e.g. mirroring a new Auth user into `ai_student.users`/`profile`). Never send this key
+to the frontend.
 
 ### 2. Installation (Virtual Environment)
 It is highly recommended to use a virtual environment so you don't clutter your global Python installation. Open your terminal and navigate to the backend folder:
