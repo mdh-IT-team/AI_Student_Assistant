@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -13,12 +14,26 @@ load_dotenv(dotenv_path)
 
 URL: str = os.environ.get("SUPABASE_URL")
 KEY: str = os.environ.get("SUPABASE_KEY")
+SERVICE_ROLE_KEY: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
 # Safety validation check before client initialization
 if not URL or not KEY:
     raise ValueError(f"Environment variables missing! Checked path: {dotenv_path}. Found URL: {URL}, KEY: {KEY}")
+if not SERVICE_ROLE_KEY:
+    raise ValueError(
+        f"SUPABASE_SERVICE_ROLE_KEY missing! Checked path: {dotenv_path}. "
+        "Get it from Supabase Project Settings -> API -> service_role secret, "
+        "and add it to Backend/.env."
+    )
 
+# Public client: respects RLS, safe for anything acting "as the logged-in user".
 supabase: Client = create_client(URL, KEY)
+
+# Admin client: SERVICE ROLE KEY bypasses RLS entirely. Server-side only —
+# never expose this key or this client to the frontend. Use it only for
+# system-level writes the backend itself is responsible for (mirroring the
+# Auth identity into ai_student.users/profile, admin-only user creation).
+supabase_admin: Client = create_client(URL, SERVICE_ROLE_KEY)
 
 app = FastAPI()
 
@@ -46,6 +61,12 @@ class LoginData(BaseModel):
     password: str
 
 
+class RegisterData(BaseModel):
+    email: str
+    password: str
+    full_name: str
+
+
 @app.get("/test")
 def test_route():
     return {
@@ -61,7 +82,7 @@ def check_status():
 
 
 @app.post("/auth/register")
-def register(user_data: LoginData):
+def register(user_data: RegisterData):
     try:
         # wrapping the role inside  options.data
         response = supabase.auth.sign_up({
@@ -73,14 +94,56 @@ def register(user_data: LoginData):
                 }
             }
         })
-        return {"status": "Success", "message": "User registered successfully!"}
-
     except Exception as e:
         error_message = str(e)
         if "already registered" in error_message.lower() or "already exists" in error_message.lower():
             return {"status": "Error", "message": "Validation Failed: This email is already registered."}
         else:
             return {"status": "Error", "message": error_message}
+
+    # --- Mirror the Supabase Auth identity into ai_student.users -----------
+    # We reuse the SAME uuid Supabase Auth just generated so that
+    # ai_student.profile.id (FK profile_id_fkey -> users.id) can join on it.
+    # NOTE: if either insert below fails, the Auth user already exists but
+    # has no matching ai_student.users/profile row (orphaned account).
+    # Supabase has no cross-service transaction for this, so on failure we
+    # surface a distinct error telling the caller manual cleanup is needed.
+    new_user_id = response.user.id
+
+    try:
+        # NOTE: uses supabase_admin (service role) — RLS blocks these inserts
+        # under the anon key, and there's no logged-in session yet to satisfy
+        # an "auth.uid() = id" style policy at this point in the flow anyway.
+        supabase_admin.schema("ai_student").table("users").insert({
+            "id": new_user_id,
+            "name": user_data.full_name,
+            "role": "student",
+            "email": user_data.email,
+            "date_created": date.today().isoformat()
+        }).execute()
+
+        # Create the matching academic profile row (empty until an admin/
+        # teacher assigns semester or modules).
+        # profile.id shares the same uuid as users.id (FK: profile_id_fkey),
+        # mirroring the classic "profiles.id -> auth.users.id" pattern.
+        supabase_admin.schema("ai_student").table("profile").insert({
+            "id": new_user_id,
+            "role": "student",
+            "semester": None,
+            "module_study": None,
+            "modules_teach": None
+        }).execute()
+
+    except Exception as e:
+        return {
+            "status": "Error",
+            "message": (
+                f"Auth account created but profile setup failed: {str(e)}. "
+                "This account is orphaned — contact an admin to fix it manually."
+            )
+        }
+
+    return {"status": "Success", "message": "User registered successfully!"}
 
 
 # =========================================================================
