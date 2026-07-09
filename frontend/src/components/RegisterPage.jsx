@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/style.css';
 
 export default function RegisterPage({ onNavigate }) {
   // 1. Add state to hold the input values
@@ -18,6 +19,7 @@ export default function RegisterPage({ onNavigate }) {
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ full_name: name, email, password }),
         body: JSON.stringify({ email, password, full_name: name }),
       });
 
