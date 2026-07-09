@@ -28,15 +28,17 @@ export default function LoginPage({ onNavigate }) {
       if (data.status === 'Success') {
         // CRITICAL: Save the JWT token to the browser's local storage
         localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user || { email, role: data.role || 'student' })); // Save user info if needed
+        console.log('Login successful! User role:', userData.role);
 
         // Navigate to the secure dashboard
-        const role = data.role || 'student';
-        switch (role.toLowerCase()) {
+        const role = userData.role.toLowerCase();
+        switch (role) {
           case 'admin':
+            console.log('Redirecting to Admin Dashboard');
             onNavigate('admindashboard');
             break;
           case 'teacher':
+            console.log('Redirecting to Teacher Dashboard');
             onNavigate('teacherdashboard');
             break;
           case 'student':
