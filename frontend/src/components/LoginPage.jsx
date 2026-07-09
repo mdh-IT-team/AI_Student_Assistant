@@ -6,10 +6,12 @@ export default function LoginPage({ onNavigate }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(''); // Clear any previous errors
+    setLoading(true);
 
     try {
       // Send the login request to the FastAPI backend
@@ -26,17 +28,32 @@ export default function LoginPage({ onNavigate }) {
       if (data.status === 'Success') {
         // CRITICAL: Save the JWT token to the browser's local storage
         localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user || { email, role: data.role || 'student' })); // Save user info if needed
 
         // Navigate to the secure dashboard
-        onNavigate('admindashboard');
+        const role = data.role || 'student';
+        switch (role.toLowerCase()) {
+          case 'admin':
+            onNavigate('admindashboard');
+            break;
+          case 'teacher':
+            onNavigate('teacherdashboard');
+            break;
+          case 'student':
+          default:
+            onNavigate('dashboard');
+            break;
+        }
       } else {
-        // Show errors from the backend (like "Wrong email or password")
         setError(data.message || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
       setError('Could not connect to the server. Is the backend running?');
+    } finally {
+      setLoading(false);
     }
   };
+
 
   return (
     <div className="login-container">
@@ -58,6 +75,7 @@ export default function LoginPage({ onNavigate }) {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
           </div>
 
@@ -70,6 +88,7 @@ export default function LoginPage({ onNavigate }) {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
             />
           </div>
 

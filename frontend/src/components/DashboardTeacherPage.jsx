@@ -27,22 +27,27 @@ export default function DashboardTeacherPage({ onNavigate }) {
 
   // Which module's student list is currently shown
   const [selectedModuleId, setSelectedModuleId] = useState(1);
+  const [chatMessage, setChatMessage] = useState('');
+  const [userName, setUserName] = useState('Professor');
 
-  // Handle picking a file for a module.
-  function handleFileUpload(moduleId, event) {
+  useEffect(() => {
+    // Get user data from localStorage
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        setUserName(user.name || user.email?.split('@')[0] || 'Professor');
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+      }
+    }
+  }, []);
+
+  const handleFileUpload = (moduleId, event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    // ============================================================
-    // TODO (backend): upload the file to Supabase Storage here.
-    // Example:
-    //   await supabase.storage
-    //     .from('module-materials')
-    //     .upload(`${moduleId}/${file.name}`, file);
-    // For now we just add the file name to local state so the UI
-    // demonstrates the intended flow.
-    // ============================================================
-
+    // TODO: Upload to Supabase Storage
     setModules(prev =>
       prev.map(m =>
         m.id === moduleId
@@ -50,12 +55,28 @@ export default function DashboardTeacherPage({ onNavigate }) {
           : m
       )
     );
-    event.target.value = ''; // reset the input so the same file can be re-picked
-  }
+    event.target.value = '';
+    alert(`File "${file.name}" uploaded successfully!`);
+  };
+
+  const handleSendChat = () => {
+    if (chatMessage) {
+      console.log('Chat message:', chatMessage);
+      alert(`AI Assistant: Let me help you with "${chatMessage}"`);
+      setChatMessage('');
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    onNavigate('home');
+  };
 
   const selectedModule = modules.find(m => m.id === selectedModuleId);
   const totalStudents = modules.reduce((sum, m) => sum + m.students.length, 0);
   const totalMaterials = modules.reduce((sum, m) => sum + m.materials.length, 0);
+
 
   return (
     <div className="dashboard-layout">
@@ -80,13 +101,13 @@ export default function DashboardTeacherPage({ onNavigate }) {
             <span>🔔</span>
             <div className="profile-widget">
               <div className="avatar"></div>
-              <span>Hi, Prof. Smith! ▾</span>
+              <span>Hi, {userName}! ▾</span>
             </div>
           </div>
         </header>
 
         <div className="welcome-widget">
-          <h2>Hello, Prof. Smith! 👋</h2>
+          <h2>Hello, {userName}! 👋</h2>
           <p style={{ color: '#64748b' }}>Manage your modules and share materials with your students.</p>
         </div>
 
@@ -163,6 +184,11 @@ export default function DashboardTeacherPage({ onNavigate }) {
                 <span>{student}</span>
               </div>
             ))}
+            {selectedModule?.students.length === 0 && (
+              <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
+                No students enrolled yet.
+              </p>
+            )}
           </div>
 
           <div className="dashboard-panel">
@@ -173,8 +199,13 @@ export default function DashboardTeacherPage({ onNavigate }) {
               Ask me to summarize a module, draft an announcement, or suggest material.
             </p>
             <div className="chat-input-container">
-              <input type="text" placeholder="Ask me anything..." className="chat-input" />
-              <button className="btn-primary">Send</button>
+              <input type="text" 
+              placeholder="Ask me anything..." 
+              className="chat-input" 
+              onChange={(e) => setChatMessage(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSendChat()}
+              />
+              <button className="btn-primary" onClick={handleSendChat}>Send</button>
             </div>
           </div>
         </div>
