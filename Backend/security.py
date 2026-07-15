@@ -50,9 +50,18 @@ class RoleChecker:
         self.allowed_roles = allowed_roles
 
     def __call__(self, user=Depends(verify_jwt)):
+        from main import supabase
+
+        # fetch secure role value from db users table
+        user_role = "student"
+        try:
+            res = supabase.schema("ai_student").table("users").select("role").eq("id", user.id).execute()
+            if res.data and len(res.data) > 0:
+                user_role = res.data[0].get("role", "student")
+        except Exception:
+            pass
 
 
-        user_role = user.user_metadata.get("role", "student")
 
         if user_role not in self.allowed_roles:
             raise HTTPException(
@@ -61,3 +70,4 @@ class RoleChecker:
             )
 
         return user
+
