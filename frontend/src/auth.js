@@ -31,23 +31,26 @@ export function logout() {
   localStorage.removeItem('token');
 }
 
-// Ask the backend who this token belongs to, and return their role.
-export async function fetchRole() {
+// Fetch the full current user object from the backend.
+export async function fetchMe() {
   const token = getToken();
   if (!token) return null;
 
   try {
-    const response = await fetch('http://localhost:8000/api/me', {
+    const res = await fetch('http://localhost:8000/api/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = await response.json();
-    if (data.status === 'Success') {
-      return data.user.role;
-    }
-    return null;
+    const data = await res.json();
+    return data.status === 'Success' ? data.user : null;
   } catch {
     return null;
   }
+}
+
+// Ask the backend who this token belongs to, and return their role.
+export async function fetchRole() {
+  const user = await fetchMe();
+  return user ? user.role : null;
 }
 
 // Map a role to its dashboard page key.
@@ -55,5 +58,5 @@ export function pageForRole(role) {
   if (role === 'admin') return 'admindashboard';
   if (role === 'teacher') return 'teacherdashboard';
   if (role === 'student') return 'studentdashboard';
-  return 'login'; // unknown / no role
+  return 'login';
 }
