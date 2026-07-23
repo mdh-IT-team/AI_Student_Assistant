@@ -108,7 +108,7 @@ def register(user_data: RegisterData):
     new_user_id = response.user.id
 
     try:
-    
+
         supabase_admin.schema("ai_student").table("users").insert({
             "id": new_user_id,
             "name": user_data.full_name,
@@ -200,10 +200,12 @@ def forgot_password(forgot_data: ForgotPasswordData):
 @app.get("/api/me")
 def get_current_user(current_user=Depends(verify_jwt)):
     # fetch secure role and name values from db
+    # NOTE: must use supabase_admin — the anon client is blocked by RLS and
+    # returns zero rows, which silently defaults every user to "student".
     role = "student"
     name = None
     try:
-        res = supabase.schema("ai_student").table("users").select("role, name").eq("id", current_user.id).execute()
+        res = supabase_admin.schema("ai_student").table("users").select("role, name").eq("id", current_user.id).execute()
         if res.data and len(res.data) > 0:
             role = res.data[0].get("role", "student")
             name = res.data[0].get("name")
@@ -228,7 +230,7 @@ def get_current_user(current_user=Depends(verify_jwt)):
 @app.get("/api/users/{user_id}", dependencies=[Depends(verify_jwt)])
 def lookup_user_profile(user_id: str):
     try:
-        response = supabase.schema("ai_student").table("profile").select("*").eq("id", user_id).execute()
+        response = supabase_admin.schema("ai_student").table("profile").select("*").eq("id", user_id).execute()
 
         if response.data and len(response.data) > 0:
             return {
@@ -245,12 +247,12 @@ def lookup_user_profile(user_id: str):
 def get_admin_dashboard(current_user = Depends(verify_jwt)):
     try:
         # fetch all users to count teachers and students securely
-        users_res = supabase.schema("ai_student").table("users").select("role").execute()
+        users_res = supabase_admin.schema("ai_student").table("users").select("role").execute()
         teachers_count = sum(1 for u in users_res.data if u.get("role") == "teacher")
         students_count = sum(1 for u in users_res.data if u.get("role") == "student")
 
         # fetch all profiles to compile unique modules list
-        profiles_res = supabase.schema("ai_student").table("profile").select("module_study, modules_teach").execute()
+        profiles_res = supabase_admin.schema("ai_student").table("profile").select("module_study, modules_teach").execute()
         modules_set = set()
         for row in profiles_res.data:
             study = row.get("module_study")
@@ -337,17 +339,17 @@ def invite_teacher(invite_data: InviteTeacherData):
 def get_teacher_dashboard(current_user = Depends(verify_jwt)):
     try:
         # fetch the teacher's modules
-        profile_response = supabase.schema("ai_student").table("profile").select("modules_teach").eq("id", current_user.id).execute()
+        profile_response = supabase_admin.schema("ai_student").table("profile").select("modules_teach").eq("id", current_user.id).execute()
         teacher_data = profile_response.data[0] if profile_response.data else {}
         modules_str = teacher_data.get("modules_teach") or ""
         teacher_modules = [m.strip() for m in modules_str.split(",") if m.strip()]
 
         # fetch all student users and profiles to match enrollments
-        students_res = supabase.schema("ai_student").table("users").select("id, name, email").eq("role", "student").execute()
+        students_res = supabase_admin.schema("ai_student").table("users").select("id, name, email").eq("role", "student").execute()
         student_users = {s["id"]: s for s in students_res.data}
 
-        profiles_res = supabase.schema("ai_student").table("profile").select("id, module_study").eq("role", "student").execute()
-        
+        profiles_res = supabase_admin.schema("ai_student").table("profile").select("id, module_study").eq("role", "student").execute()
+
         students_list = []
         for p in profiles_res.data:
             s_id = p["id"]
@@ -379,8 +381,8 @@ def get_teacher_dashboard(current_user = Depends(verify_jwt)):
 @app.get("/api/dashboard/student", dependencies=[Depends(allow_student)])
 def get_student_dashboard(current_user = Depends(verify_jwt)):
     try:
-        
-        profile_response = supabase.schema("ai_student").table("profile").select("semester, module_study").eq("id", current_user.id).execute()
+
+        profile_response = supabase_admin.schema("ai_student").table("profile").select("semester, module_study").eq("id", current_user.id).execute()
         student_data = profile_response.data[0] if profile_response.data else {}
 
         return {
