@@ -56,6 +56,20 @@ class RegisterData(BaseModel):
     password: str
     full_name: str
 
+# change password
+class ChangePasswordData(BaseModel):
+    new_password: str
+
+
+class InviteTeacherData(BaseModel):
+    email: str
+
+
+class ForgotPasswordData(BaseModel):
+    email: str
+
+
+
 
 @app.get("/test")
 def test_route():
@@ -150,12 +164,58 @@ def logout():
         return {"status": "Error", "message": str(e)}
 
 
+@app.post("/auth/change-password")
+def change_password(
+        password_data: ChangePasswordData,
+        current_user=Depends(verify_jwt)  # extracts user ID from the valid token
+):
+    try:
+        # admin client to  force the password update for this specific ID
+        response = supabase_admin.auth.admin.update_user_by_id(
+            current_user.id,
+            {"password": password_data.new_password}
+        )
+
+        return {"status": "Success", "message": "Password updated successfully!"}
+
+    except Exception as e:
+        return {"status": "Error", "message": f"Failed to update password: {str(e)}"}
+
+
+@app.post("/auth/forgot-password")
+def forgot_password(forgot_data: ForgotPasswordData):
+    try:
+        # trigger password reset email from supabase
+        supabase.auth.reset_password_for_email(
+            forgot_data.email,
+            options={
+                "redirect_to": "http://localhost:5173/#recovery"
+            }
+        )
+        return {"status": "Success", "message": "Password reset email sent successfully!"}
+    except Exception as e:
+        return {"status": "Error", "message": f"Failed to send reset email: {str(e)}"}
+
+
 @app.get("/api/me")
 def get_current_user(current_user=Depends(verify_jwt)):
+    # fetch secure role and name values from db
+    role = "student"
+    name = None
+    try:
+        res = supabase.schema("ai_student").table("users").select("role, name").eq("id", current_user.id).execute()
+        if res.data and len(res.data) > 0:
+            role = res.data[0].get("role", "student")
+            name = res.data[0].get("name")
+    except Exception as e:
+        print(f"Error fetching secure user data: {e}")
+
+
     safe_user_data = {
         "id": current_user.id,
         "email": current_user.email,
-        "role": current_user.user_metadata.get("role", "student"),
+        "role": role,
+        "name": name,
         "created_at": current_user.created_at,
         "last_sign_in_at": current_user.last_sign_in_at
     }
@@ -184,33 +244,137 @@ def lookup_user_profile(user_id: str):
 @app.get("/api/dashboard/admin", dependencies=[Depends(allow_admin)])
 def get_admin_dashboard(current_user = Depends(verify_jwt)):
     try:
+        # fetch all users to count teachers and students securely
+        users_res = supabase.schema("ai_student").table("users").select("role").execute()
+        teachers_count = sum(1 for u in users_res.data if u.get("role") == "teacher")
+        students_count = sum(1 for u in users_res.data if u.get("role") == "student")
+
+        # fetch all profiles to compile unique modules list
+        profiles_res = supabase.schema("ai_student").table("profile").select("module_study, modules_teach").execute()
+        modules_set = set()
+        for row in profiles_res.data:
+            study = row.get("module_study")
+            if study:
+                for m in study.split(","):
+                    m_clean = m.strip()
+                    if m_clean:
+                        modules_set.add(m_clean)
+            teach = row.get("modules_teach")
+            if teach:
+                for m in teach.split(","):
+                    m_clean = m.strip()
+                    if m_clean:
+                        modules_set.add(m_clean)
+        modules_count = len(modules_set)
+
         return {
             "status": "Success",
             "dashboard_type": "Admin",
             "data": {
                 "message": "Welcome to the Admin Control Panel.",
-                "user_email": current_user.email
+                "user_email": current_user.email,
+                "teachers_count": teachers_count,
+                "students_count": students_count,
+                "modules_count": modules_count
             }
         }
     except Exception as e:
         return {"status": "Error", "message": str(e)}
 
+
+
+@app.post("/admin/create-teacher", dependencies=[Depends(allow_admin)])
+def invite_teacher(invite_data: InviteTeacherData):
+    try:
+        # send invite via supabase admin auth
+        response = supabase_admin.auth.admin.invite_user_by_email(
+            invite_data.email,
+            options={
+                "data": {
+                    "role": "teacher"
+                }
+            }
+        )
+    except Exception as e:
+        error_message = str(e)
+        if "already registered" in error_message.lower() or "already exists" in error_message.lower():
+            return {"status": "Error", "message": "This email is already registered."}
+        return {"status": "Error", "message": f"Invitation failed: {error_message}"}
+
+    new_user_id = response.user.id
+
+    try:
+        # sync auth user to db users and profile tables
+        supabase_admin.schema("ai_student").table("users").insert({
+            "id": new_user_id,
+            "name": invite_data.email.split("@")[0],
+            "role": "teacher",
+            "email": invite_data.email,
+            "date_created": date.today().isoformat()
+        }).execute()
+
+        supabase_admin.schema("ai_student").table("profile").insert({
+            "id": new_user_id,
+            "role": "teacher",
+            "semester": None,
+            "module_study": None,
+            "modules_teach": None
+        }).execute()
+
+    except Exception as e:
+        return {
+            "status": "Error",
+            "message": (
+                f"Invitation sent but profile setup failed: {str(e)}. "
+                "Contact an admin to resolve this orphaned record."
+            )
+        }
+
+    return {"status": "Success", "message": "Teacher invited successfully!"}
+
+
 @app.get("/api/dashboard/teacher", dependencies=[Depends(allow_teacher)])
 def get_teacher_dashboard(current_user = Depends(verify_jwt)):
     try:
+        # fetch the teacher's modules
         profile_response = supabase.schema("ai_student").table("profile").select("modules_teach").eq("id", current_user.id).execute()
         teacher_data = profile_response.data[0] if profile_response.data else {}
+        modules_str = teacher_data.get("modules_teach") or ""
+        teacher_modules = [m.strip() for m in modules_str.split(",") if m.strip()]
+
+        # fetch all student users and profiles to match enrollments
+        students_res = supabase.schema("ai_student").table("users").select("id, name, email").eq("role", "student").execute()
+        student_users = {s["id"]: s for s in students_res.data}
+
+        profiles_res = supabase.schema("ai_student").table("profile").select("id, module_study").eq("role", "student").execute()
+        
+        students_list = []
+        for p in profiles_res.data:
+            s_id = p["id"]
+            if s_id in student_users:
+                study_str = p.get("module_study")
+                if study_str:
+                    student_mods = [m.strip() for m in study_str.split(",") if m.strip()]
+                    shared_mods = [m for m in student_mods if m in teacher_modules]
+                    if shared_mods:
+                        students_list.append({
+                            "name": student_users[s_id]["name"],
+                            "email": student_users[s_id]["email"],
+                            "enrolled_modules": shared_mods
+                        })
 
         return {
             "status": "Success",
             "dashboard_type": "Teacher",
             "data": {
                 "message": "Welcome to the Teacher Portal.",
-                "teaching_modules": teacher_data.get("modules_teach", "None assigned")
+                "teaching_modules": modules_str if modules_str else "None assigned",
+                "students": students_list
             }
         }
     except Exception as e:
         return {"status": "Error", "message": str(e)}
+
 
 @app.get("/api/dashboard/student", dependencies=[Depends(allow_student)])
 def get_student_dashboard(current_user = Depends(verify_jwt)):
