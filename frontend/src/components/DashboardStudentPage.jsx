@@ -1,36 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/style.css';
+import { logout, fetchMe } from '../auth';
+import { fetchDashboard } from '../api';
 
 export default function DashboardStudentPage({ onNavigate }) {
-  const [chatMessage, setChatMessage] = useState('');
+  const [modules, setModules] = useState([]);
+  const [semester, setSemester] = useState('—');
   const [userName, setUserName] = useState('Student');
+  const [chatMessage, setChatMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Get user data from localStorage
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
-        setUserName(user.name || user.email?.split('@')[0] || 'Student');
-      } catch (e) {
-        console.error('Error parsing user data:', e);
-      }
-    }
+    fetchMe().then(user => {
+      if (user) setUserName(user.name || user.email?.split('@')[0] || 'Student');
+    });
+
+    fetchDashboard('student')
+      .then(data => {
+        const names = (data.studying_modules || '')
+          .split(',')
+          .map(m => m.trim())
+          .filter(Boolean);
+        setModules(names);
+        setSemester(data.semester || 'Not specified');
+      })
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false));
   }, []);
 
-  const handleSendChat = () => {
-    if (chatMessage) {
-      // TODO: AI tutor logic here
-      console.log('Chat message:', chatMessage);
-      alert(`AI Tutor: Let me help you with "${chatMessage}"`);
-      setChatMessage('');
-    }
-  };
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    onNavigate('home');
-  };
+  function handleSendChat() {
+    if (!chatMessage) return;
+    alert(`AI Tutor: Let me help you with "${chatMessage}"`);
+    setChatMessage('');
+  }
 
   return (
     <div className="dashboard-layout">
@@ -38,15 +41,13 @@ export default function DashboardStudentPage({ onNavigate }) {
         <div>
           <div className="logo">🤖 AI Student Assistant</div>
           <ul className="sidebar-menu">
-            <li><a href="#dash" className="sidebar-item active"> Dashboard</a></li>
-            <li><a href="#tutor" className="sidebar-item"> AI Tutor</a></li>
-            <li><a href="#tasks" className="sidebar-item"> Assignement</a></li>
-            <li><a href="#planner" className="sidebar-item">Modules Assigned</a></li>
-            <li><a href="#notes" className="sidebar-item">Grades</a></li>
-            <li><a href="#settings" className="sidebar-item">Settings</a></li>
+            <li><a href="#dash" className="sidebar-item active">📊 Dashboard</a></li>
+            <li><a href="#modules" className="sidebar-item">📚 My Modules</a></li>
+            <li><a href="#aichat" className="sidebar-item">🔮 AI Tutor</a></li>
+            <li><a href="#settings" className="sidebar-item">⚙️ Settings</a></li>
           </ul>
         </div>
-        <a href="#logout" className="sidebar-logout" onClick={() => onNavigate('home')}>Logout</a>
+        <a href="#logout" className="sidebar-logout" onClick={() => { logout(); onNavigate('home'); }}>🚪 Logout</a>
       </aside>
 
       <main className="main-content">
@@ -56,70 +57,70 @@ export default function DashboardStudentPage({ onNavigate }) {
             <span>🔔</span>
             <div className="profile-widget">
               <div className="avatar"></div>
-              <span>Hi, UserName! ▾</span>
+              <span>Hi, {userName}! ▾</span>
             </div>
           </div>
         </header>
 
         <div className="welcome-widget">
-          <h2>Hello, UserName! 👋</h2>
-          <p style={{color: '#64748b'}}>Let's make today productive!</p>
+          <h2>Hello, {userName}! 👋</h2>
+          <p style={{ color: '#64748b' }}>Let's make today productive!</p>
         </div>
 
-        <section className="stats-grid">
-          <div className="stat-card">
-            <h3>3</h3>
-            <p>Assignment Due Today 
-            </p>
-          </div>
-          <div className="stat-card">
-            <h3>2</h3>
-            <p>Classes Today</p>
-          </div>
-        </section>
+        {loading && <p>Loading your dashboard…</p>}
+        {error && <p style={{ color: '#ef4444' }}>Could not load dashboard: {error}</p>}
 
-        <div className="dashboard-grid">
-          <div className="dashboard-panel">
-            <div className="panel-header">
-              <h3>AI Tutor</h3>
-            </div>
-            <p style={{fontSize: '0.9rem', color: '#64748b', marginBottom: '15px'}}>
-              Hi {userName}! What would you like to learn today?
-            </p>
-            <div className="chat-input-container">
-              <input type="text" 
-              placeholder="Ask me anything..." 
-              className="chat-input"
-              value={chatMessage}
-              onChange={(e) => setChatMessage(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendChat()} />
-              <button className="btn-primary" onClick={handleSendChat}>Send</button>
-            </div>
-          </div>
-
-          <div className="dashboard-panel">
-            <div className="panel-header">
-              <h3>Today's Assignments</h3>
-              <a href="#tasks">View all</a>
-            </div>
-            <div className="task-item">
-              <div>
-                <input type="checkbox" id="t1" /> <label htmlFor="t1">Math Assignment</label>
-                <div style={{fontSize: '0.75rem', color: '#64748b'}}>Due in 2 hours</div>
+        {!loading && !error && (
+          <>
+            <section className="stats-grid">
+              <div className="stat-card">
+                <h3>{modules.length}</h3>
+                <p>Modules Enrolled 📚</p>
               </div>
-              <span className="badge high">High</span>
-            </div>
-            <div className="task-item">
-              <div>
-                <input type="checkbox" id="t2" /> <label htmlFor="t2">Science Project</label>
-                <div style={{fontSize: '0.75rem', color: '#64748b'}}>Due tomorrow</div>
+              <div className="stat-card">
+                <h3>{semester}</h3>
+                <p>Current Semester 🗓️</p>
               </div>
-              <span className="badge medium">Medium</span>
-            </div>
-          </div>
-        </div>
+            </section>
 
-       
+            <div className="dashboard-grid" style={{ marginTop: '25px' }}>
+              <div className="dashboard-panel">
+                <div className="panel-header">
+                  <h3>My Modules</h3>
+                  <span className="badge low">{modules.length} total</span>
+                </div>
+                {modules.map((m, i) => (
+                  <div className="task-item" key={i}>
+                    <span>📖 {m}</span>
+                  </div>
+                ))}
+                {modules.length === 0 && (
+                  <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
+                    You are not enrolled in any modules yet.
+                  </p>
+                )}
+              </div>
+
+              <div className="dashboard-panel">
+                <div className="panel-header"><h3>AI Tutor</h3></div>
+                <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '15px' }}>
+                  Hi {userName}! What would you like to learn today?
+                </p>
+                <div className="chat-input-container">
+                  <input
+                    type="text"
+                    placeholder="Ask me anything..."
+                    className="chat-input"
+                    value={chatMessage}
+                    onChange={(e) => setChatMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSendChat()}
+                  />
+                  <button className="btn-primary" onClick={handleSendChat}>Send</button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </main>
     </div>
   );
