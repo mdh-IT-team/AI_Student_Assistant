@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96f6e820-671a-4cc3-95da-f93700d2ae15" name="Changes" comment="changes to RegisterPage.jsx">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/AiChatBox.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardAdminPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardAdminPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardStudentPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardStudentPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardTeacherPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardTeacherPage.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="96f6e820-671a-4cc3-95da-f93700d2ae15" name="Changes" comment="changes to RegisterPage.jsx" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

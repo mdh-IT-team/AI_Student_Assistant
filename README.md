@@ -81,8 +81,8 @@ The following endpoints have been fully integrated, secured, and tested. You can
 *Note: Requests to these endpoints must include a valid JWT in the headers: `Authorization: Bearer <your_token>`.*
 
 * **`GET /api/me`** : Extracts the authenticated user info.
-* **`GET /api/dashboard`** : A route that queries the database schema. It joins core account information from the `users` table with specific academic details (semester, studying modules, teaching modules) from the `profile` table to deliver a compiled dashboard payload.
----
+* **`GET /api/dashboard/{role}`** : A role-specific route (admin / teacher / student) that queries the database schema. It joins core account information from the users table with specific academic details (semester, studying modules, teaching modules) from the profile table to deliver a compiled dashboard payload.
+* **`POST /api/chat`** : Powers the AI Assistant chat box on each dashboard. Accepts a JSON payload (message, and an optional role which the backend re-verifies against the database rather than trusting the client). Returns { status, reply, role }. Currently returns a role-aware placeholder response — real LLM integration (Gemini) is planned but not yet wired in.
 
 ## Part 2: Frontend Setup (React + Vite)
 
@@ -113,3 +113,13 @@ npm run dev
 ```
 
 The frontend will run on `http://localhost:5173`. Open this URL in your browser to use the application.
+### 2. AI Chat Assistant
+Each dashboard (Admin, Teacher, Student) includes an AI chat box powered by a single reusable component:
+``frontend/src/components/AiChatBox.jsx.``
+
+** `Renders a scrollable message thread plus a text input, styled to match the existing dashboard panels.`
+** `Takes a role prop ("admin", "teacher", or "student") that controls its greeting, subtitle, and placeholder text so the same component feels tailored to whoever is using it.`
+** `On send, POSTs { message, role } to POST /api/chat with the user's auth token attached, and renders whatever reply comes back.`
+** `Used in DashboardAdminPage.jsx, DashboardTeacherPage.jsx, and DashboardStudentPage.jsx in place of the old static chat input.`
+
+Current limitation: the backend endpoint it talks to (POST /api/chat) does not yet call a real AI model — it returns a canned, role-aware placeholder reply so the full pipeline (auth → role lookup → response → display) can be tested end-to-end. Connecting this to Gemini is a planned next step.
