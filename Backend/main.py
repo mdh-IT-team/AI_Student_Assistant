@@ -83,7 +83,7 @@ class CreateModuleData(BaseModel):
 
 
 class EnrollStudentData(BaseModel):
-    semester: Optional[str] = Field(default=None, example="Semester 4")
+    semester: str = Field(..., json_schema_extra={"example": "Semester 4"})
 
 
 class ForgotPasswordData(BaseModel):
@@ -550,8 +550,11 @@ def get_teacher_dashboard(current_user = Depends(verify_jwt)):
 
 
 @app.post("/api/modules/{module_id}/enroll/{student_id}", dependencies=[Depends(allow_teacher)])
-def enroll_student_in_module(module_id: str, student_id: str, enroll_data: EnrollStudentData = Body(default_factory=EnrollStudentData), current_user = Depends(verify_jwt)):
+def enroll_student_in_module(module_id: str, student_id: str, enroll_data: EnrollStudentData, current_user = Depends(verify_jwt)):
     try:
+        semester_str = enroll_data.semester.strip() if enroll_data.semester else ""
+        if not semester_str:
+            return {"status": "Error", "message": "Semester is required for student module enrollment."}
         # 1. Verify student exists and is a student
         student_res = supabase_admin.schema("ai_student").table("users").select("id, name, email, role").eq("id", student_id).execute()
         if not student_res.data:
