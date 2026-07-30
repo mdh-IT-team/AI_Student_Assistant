@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../styles/style.css';
 import { logout, fetchMe } from '../auth';
 import { fetchDashboard } from '../api';
+import AiChatBox from './AiChatBox';
 
 export default function DashboardTeacherPage({ onNavigate }) {
   const [modules, setModules] = useState([]);
   const [selectedModule, setSelectedModule] = useState(null);
   const [userName, setUserName] = useState('Professor');
-  const [chatMessage, setChatMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -51,11 +51,6 @@ export default function DashboardTeacherPage({ onNavigate }) {
     event.target.value = '';
   }
 
-  function handleSendChat() {
-    if (!chatMessage) return;
-    alert(`AI Assistant: Let me help you with "${chatMessage}"`);
-    setChatMessage('');
-  }
 
   const current = modules.find(m => m.name === selectedModule);
   const totalStudents = new Set(
@@ -181,25 +176,9 @@ export default function DashboardTeacherPage({ onNavigate }) {
                   <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>No students enrolled yet.</p>
                 )}
               </div>
-
-              <div className="dashboard-panel">
-                <div className="panel-header"><h3>AI Assistant</h3></div>
-                <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '15px' }}>
-                  Ask me to summarize a module, draft an announcement, or suggest material.
-                </p>
-                <div className="chat-input-container">
-                  <input
-                    type="text"
-                    placeholder="Ask me anything..."
-                    className="chat-input"
-                    value={chatMessage}
-                    onChange={(e) => setChatMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendChat()}
-                  />
-                  <button className="btn-primary" onClick={handleSendChat}>Send</button>
-                </div>
-              </div>
             </div>
+            <AiChatBox role="teacher" userName={userName} />
+
           </>
         )}
       </main>

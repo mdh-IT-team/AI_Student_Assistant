@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96f6e820-671a-4cc3-95da-f93700d2ae15" name="Changes" comment="dup email push">
+    <list default="true" id="96f6e820-671a-4cc3-95da-f93700d2ae15" name="Changes" comment="changes to RegisterPage.jsx">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/AiChatBox.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardAdminPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardAdminPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardStudentPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardStudentPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardTeacherPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardTeacherPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +40,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:mdh-IT-team/AI_Student_Assistant.git&quot;,
-    &quot;accountId&quot;: &quot;9a685294-4e92-4a8f-8663-f0c50e83290c&quot;
+    &quot;url&quot;: &quot;https://github.com/mdh-IT-team/AI_Student_Assistant.git&quot;,
+    &quot;accountId&quot;: &quot;4092befc-20b6-4761-90a1-61e2e59df711&quot;
   }
 }</component>
   <component name="MarkdownSettingsMigration">
@@ -64,9 +68,11 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "Shayan-branch",
+    "git-widget-placeholder": "aastha",
     "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/aasthagurung/Documents/AI_Student_Assistant",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -76,6 +82,7 @@
     "project.structure.proportion": "0.15039062",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
     "ts.external.directory.path": "D:\\intellij\\IntelliJ IDEA 2025.2.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
@@ -88,8 +95,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
       </set>
     </attachedChunks>
   </component>
@@ -114,7 +120,15 @@
       <option name="project" value="LOCAL" />
       <updated>1779980439688</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="changes to RegisterPage.jsx">
+      <option name="closed" value="true" />
+      <created>1784818283488</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1784818283488</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,17 +150,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="dup email push" />
-    <option name="LAST_COMMIT_MESSAGE" value="dup email push" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Backend/main.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="changes to RegisterPage.jsx" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes to RegisterPage.jsx" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AI_Student_Assistant$main.coverage" NAME="main Coverage Results" MODIFIED="1779981528920" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend" />
