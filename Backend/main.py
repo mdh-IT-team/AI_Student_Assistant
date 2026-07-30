@@ -1,9 +1,10 @@
 import os
 import uuid as uuid_lib
+from typing import Optional
 from datetime import date, datetime
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Body
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import uvicorn
 from dotenv import load_dotenv
 from supabase import create_client, Client
@@ -82,7 +83,7 @@ class CreateModuleData(BaseModel):
 
 
 class EnrollStudentData(BaseModel):
-    semester: str = None
+    semester: Optional[str] = Field(default=None, example="Semester 4")
 
 
 class ForgotPasswordData(BaseModel):
@@ -549,7 +550,7 @@ def get_teacher_dashboard(current_user = Depends(verify_jwt)):
 
 
 @app.post("/api/modules/{module_id}/enroll/{student_id}", dependencies=[Depends(allow_teacher)])
-def enroll_student_in_module(module_id: str, student_id: str, enroll_data: EnrollStudentData = EnrollStudentData(), current_user = Depends(verify_jwt)):
+def enroll_student_in_module(module_id: str, student_id: str, enroll_data: EnrollStudentData = Body(default_factory=EnrollStudentData), current_user = Depends(verify_jwt)):
     try:
         # 1. Verify student exists and is a student
         student_res = supabase_admin.schema("ai_student").table("users").select("id, name, email, role").eq("id", student_id).execute()
