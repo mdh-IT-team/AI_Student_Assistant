@@ -84,6 +84,12 @@ class CreateModuleData(BaseModel):
 class ForgotPasswordData(BaseModel):
     email: str
 
+from typing import Optional
+
+class ChatData(BaseModel):
+    message: str
+    role: Optional[str] = None
+
 
 
 
@@ -560,6 +566,35 @@ def get_student_dashboard(current_user = Depends(verify_jwt)):
                 "studying_modules": student_data.get("module_study", "None assigned")
             }
         }
+    except Exception as e:
+        return {"status": "Error", "message": str(e)}
+
+def generate_ai_response(role: str, message: str, user_name: str) -> str:
+    role_intro = {
+        "admin": f"Hi {user_name}, as an admin assistant I can help with staff, "
+                 f"enrollment, and institution-wide questions.",
+        "teacher": f"Hi {user_name}, as your teaching assistant I can help you plan "
+                   f"lessons, summarize modules, or draft messages to students.",
+        "student": f"Hi {user_name}, as your AI tutor I can help explain concepts, "
+                   f"quiz you, or help you study.",
+    }.get(role, f"Hi {user_name}, how can I help?")
+
+    return f"{role_intro}\n\nYou asked: \"{message}\"\n\n(This is a placeholder reply — connect a real LLM here.)"
+
+
+@app.post("/api/chat")
+def chat(chat_data: ChatData, current_user=Depends(verify_jwt)):
+    try:
+        role = "student"
+        name = current_user.email
+        res = supabase_admin.schema("ai_student").table("users").select("role, name").eq("id", current_user.id).execute()
+        if res.data and len(res.data) > 0:
+            role = res.data[0].get("role", "student")
+            name = res.data[0].get("name") or name
+
+        reply = generate_ai_response(role, chat_data.message, name)
+
+        return {"status": "Success", "reply": reply, "role": role}
     except Exception as e:
         return {"status": "Error", "message": str(e)}
 
