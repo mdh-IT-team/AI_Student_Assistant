@@ -2,7 +2,7 @@ import os
 import uuid as uuid_lib
 from typing import Optional
 from datetime import date, datetime
-from fastapi import FastAPI, Depends, Body
+from fastapi import FastAPI, Depends, Path
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import uvicorn
@@ -82,10 +82,6 @@ class CreateModuleData(BaseModel):
     teacher_id: str = None
 
 
-class EnrollStudentData(BaseModel):
-    semester: int = Field(..., ge=1, le=7, json_schema_extra={"example": 4})
-
-
 class ForgotPasswordData(BaseModel):
     email: str
 
@@ -142,9 +138,7 @@ def register(user_data: RegisterData):
             "id": new_user_id,
             "user_id": new_user_id,
             "role": "student",
-            "semester": None,
-            "module_study": None,
-            "modules_teach": None
+            "semester": None
         }).execute()
 
     except Exception as e:
@@ -252,14 +246,15 @@ def get_current_user(current_user=Depends(verify_jwt)):
 @app.get("/api/users/{user_id}", dependencies=[Depends(verify_jwt)])
 def lookup_user_profile(user_id: str):
     try:
-        response = supabase_admin.schema("ai_student").table("profile").select("*").eq("id", user_id).execute()
+        res = supabase_admin.schema("ai_student").table("user_profile_view").select("*").eq("id", user_id).execute()
 
-        if response.data and len(response.data) > 0:
-            return {
-                "status": "Success",
-                "profile": response.data[0]
-            }
-        return {"status": "Error", "message": "User profile not found in database."}
+        if not res.data or len(res.data) == 0:
+            return {"status": "Error", "message": "User profile not found in database."}
+
+        return {
+            "status": "Success",
+            "profile": res.data[0]
+        }
 
     except Exception as e:
         return {"status": "Error", "message": str(e)}
@@ -321,23 +316,9 @@ def get_admin_dashboard(current_user = Depends(verify_jwt)):
         teachers_count = sum(1 for u in users_res.data if u.get("role") == "teacher")
         students_count = sum(1 for u in users_res.data if u.get("role") == "student")
 
-        # fetch all profiles to compile unique modules list
-        profiles_res = supabase_admin.schema("ai_student").table("profile").select("module_study, modules_teach").execute()
-        modules_set = set()
-        for row in profiles_res.data:
-            study = row.get("module_study")
-            if study:
-                for m in study.split(","):
-                    m_clean = m.strip()
-                    if m_clean:
-                        modules_set.add(m_clean)
-            teach = row.get("modules_teach")
-            if teach:
-                for m in teach.split(","):
-                    m_clean = m.strip()
-                    if m_clean:
-                        modules_set.add(m_clean)
-        modules_count = len(modules_set)
+        # Count total modules cleanly from modules table
+        modules_res = supabase_admin.schema("ai_student").table("modules").select("id", count="exact").execute()
+        modules_count = modules_res.count if modules_res.count is not None else (len(modules_res.data) if modules_res.data else 0)
 
         return {
             "status": "Success",
@@ -433,9 +414,7 @@ def invite_teacher(invite_data: InviteTeacherData):
             "id": new_user_id,
             "user_id": new_user_id,
             "role": "teacher",
-            "semester": None,
-            "module_study": None,
-            "modules_teach": None
+            "semester": None
         }).execute()
 
     except Exception as e:
@@ -484,9 +463,7 @@ def invite_student(invite_data: InviteStudentData):
             "id": new_user_id,
             "user_id": new_user_id,
             "role": "student",
-            "semester": None,
-            "module_study": None,
-            "modules_teach": None
+            "semester": None
         }).execute()
 
     except Exception as e:
@@ -512,28 +489,42 @@ def get_teacher_dashboard(current_user = Depends(verify_jwt)):
             .execute()
 
         modules_list = modules_res.data if modules_res.data else []
-        teacher_module_codes = [m["code"] for m in modules_list]
-
-        # fetch all student users and profiles to match enrollments
-        students_res = supabase_admin.schema("ai_student").table("users").select("id, name, email").eq("role", "student").execute()
-        student_users = {s["id"]: s for s in students_res.data}
-
-        profiles_res = supabase_admin.schema("ai_student").table("profile").select("id, module_study").eq("role", "student").execute()
-
         students_list = []
-        for p in profiles_res.data:
-            s_id = p["id"]
-            if s_id in student_users:
-                study_str = p.get("module_study")
-                if study_str:
-                    student_mods = [m.strip().upper() for m in study_str.split(",") if m.strip()]
-                    shared_mods = [m for m in student_mods if m in teacher_module_codes or m in [mod["name"].upper() for mod in modules_list]]
-                    if shared_mods:
-                        students_list.append({
-                            "name": student_users[s_id]["name"],
-                            "email": student_users[s_id]["email"],
-                            "enrolled_modules": shared_mods
-                        })
+        if modules_list:
+            module_ids = [m["id"] for m in modules_list]
+            enroll_res = supabase_admin.schema("ai_student").table("enrollments") \
+                .select("student_id, module_id, semester") \
+                .in_("module_id", module_ids) \
+                .execute()
+            
+            if enroll_res.data:
+                s_ids = list(set(e["student_id"] for e in enroll_res.data))
+                users_res = supabase_admin.schema("ai_student").table("users") \
+                    .select("id, name, email") \
+                    .in_("id", s_ids) \
+                    .execute()
+                
+                u_map = {u["id"]: u for u in users_res.data} if users_res.data else {}
+                
+                student_mods_map = {}
+                for e in enroll_res.data:
+                    s_id = e["student_id"]
+                    if s_id in u_map:
+                        if s_id not in student_mods_map:
+                            student_mods_map[s_id] = {
+                                "student_id": s_id,
+                                "name": u_map[s_id]["name"],
+                                "email": u_map[s_id]["email"],
+                                "enrolled_modules": []
+                            }
+                        m_info = next((m for m in modules_list if m["id"] == e["module_id"]), None)
+                        if m_info:
+                            student_mods_map[s_id]["enrolled_modules"].append({
+                                "module_name": m_info["name"],
+                                "module_code": m_info["code"],
+                                "semester": e.get("semester")
+                            })
+                students_list = list(student_mods_map.values())
 
         return {
             "status": "Success",
@@ -549,10 +540,15 @@ def get_teacher_dashboard(current_user = Depends(verify_jwt)):
         return {"status": "Error", "message": str(e)}
 
 
-@app.post("/api/modules/{module_id}/enroll/{student_id}", dependencies=[Depends(allow_teacher)])
-def enroll_student_in_module(module_id: str, student_id: str, enroll_data: EnrollStudentData, current_user = Depends(verify_jwt)):
+@app.post("/api/modules/{module_id}/enroll/{student_id}/{semester}", dependencies=[Depends(allow_teacher)])
+def enroll_student_in_module(
+    module_id: str,
+    student_id: str,
+    semester: int = Path(..., ge=1, le=7, description="Semester number between 1 and 7"),
+    current_user = Depends(verify_jwt)
+):
     try:
-        semester_str = str(enroll_data.semester)
+        semester_str = str(semester)
 
         # 1. Verify student exists and is a student
         student_res = supabase_admin.schema("ai_student").table("users").select("id, name, email, role").eq("id", student_id).execute()
@@ -596,29 +592,7 @@ def enroll_student_in_module(module_id: str, student_id: str, enroll_data: Enrol
         return {"status": "Error", "message": str(e)}
 
 
-@app.put("/api/modules/{module_id}/enroll/{student_id}", dependencies=[Depends(allow_teacher)])
-def update_student_enrollment(module_id: str, student_id: str, enroll_data: EnrollStudentData, current_user = Depends(verify_jwt)):
-    try:
-        semester_str = str(enroll_data.semester)
-        
-        res = supabase_admin.schema("ai_student").table("enrollments") \
-            .update({"semester": semester_str}) \
-            .eq("module_id", module_id) \
-            .eq("student_id", student_id) \
-            .execute()
 
-        if not res.data:
-            return {"status": "Error", "message": f"Enrollment record not found for student '{student_id}' in module '{module_id}'."}
-
-        supabase_admin.schema("ai_student").table("profile").update({"semester": semester_str}).eq("id", student_id).execute()
-
-        return {
-            "status": "Success",
-            "message": f"Enrollment updated to Semester {semester_str} successfully!",
-            "enrollment": res.data[0]
-        }
-    except Exception as e:
-        return {"status": "Error", "message": str(e)}
 
 
 @app.delete("/api/modules/{module_id}/enroll/{student_id}", dependencies=[Depends(allow_teacher)])
