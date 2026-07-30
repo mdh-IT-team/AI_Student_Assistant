@@ -82,8 +82,25 @@ class CreateModuleData(BaseModel):
     teacher_id: str = None
 
 
+def parse_and_validate_semester(val: str):
+    """
+    Sanitizes semester input to a clean numeric string (e.g., '4').
+    Returns tuple (clean_semester_number, error_message).
+    """
+    if not val or not str(val).strip():
+        return None, "Semester is required. Please provide a numeric semester (e.g., '1', '2', '4')."
+    
+    s_raw = str(val).strip()
+    digits = "".join(filter(str.isdigit, s_raw))
+    
+    if not digits:
+        return None, f"Invalid semester '{s_raw}'. Semester must be a valid number (e.g., '1', '2', '4')."
+    
+    return digits, None
+
+
 class EnrollStudentData(BaseModel):
-    semester: str = Field(..., json_schema_extra={"example": "Semester 4"})
+    semester: str = Field(..., json_schema_extra={"example": "4"})
 
 
 class ForgotPasswordData(BaseModel):
@@ -552,9 +569,10 @@ def get_teacher_dashboard(current_user = Depends(verify_jwt)):
 @app.post("/api/modules/{module_id}/enroll/{student_id}", dependencies=[Depends(allow_teacher)])
 def enroll_student_in_module(module_id: str, student_id: str, enroll_data: EnrollStudentData, current_user = Depends(verify_jwt)):
     try:
-        semester_str = enroll_data.semester.strip() if enroll_data.semester else ""
-        if not semester_str:
-            return {"status": "Error", "message": "Semester is required for student module enrollment."}
+        semester_num, err = parse_and_validate_semester(enroll_data.semester)
+        if err:
+            return {"status": "Error", "message": err}
+
         # 1. Verify student exists and is a student
         student_res = supabase_admin.schema("ai_student").table("users").select("id, name, email, role").eq("id", student_id).execute()
         if not student_res.data:
@@ -575,25 +593,22 @@ def enroll_student_in_module(module_id: str, student_id: str, enroll_data: Enrol
         if caller_role == "teacher" and module_info.get("teacher_id") != current_user.id:
             return {"status": "Error", "message": "Access denied: Teachers can only manage enrollments for their own modules."}
 
-        semester_str = enroll_data.semester.strip() if (enroll_data.semester and enroll_data.semester.strip()) else None
-
-        # 4. Insert or update enrollment
+        # 4. Insert or update enrollment with clean numeric semester string
         new_enrollment_id = str(uuid_lib.uuid4())
         enroll_res = supabase_admin.schema("ai_student").table("enrollments").upsert({
             "id": new_enrollment_id,
             "student_id": student_id,
             "module_id": module_id,
-            "semester": semester_str,
+            "semester": semester_num,
             "enrolled_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }, on_conflict="student_id, module_id").execute()
 
         # Legacy sync to profile
-        if semester_str:
-            supabase_admin.schema("ai_student").table("profile").update({"semester": semester_str}).eq("id", student_id).execute()
+        supabase_admin.schema("ai_student").table("profile").update({"semester": semester_num}).eq("id", student_id).execute()
 
         return {
             "status": "Success",
-            "message": f"Student '{student_res.data[0]['name']}' enrolled in '{module_info['name']}' ({module_info['code']}) successfully!",
+            "message": f"Student '{student_res.data[0]['name']}' enrolled in '{module_info['name']}' ({module_info['code']}) for Semester {semester_num} successfully!",
             "enrollment": enroll_res.data[0] if enroll_res.data else None
         }
     except Exception as e:
@@ -603,10 +618,12 @@ def enroll_student_in_module(module_id: str, student_id: str, enroll_data: Enrol
 @app.put("/api/modules/{module_id}/enroll/{student_id}", dependencies=[Depends(allow_teacher)])
 def update_student_enrollment(module_id: str, student_id: str, enroll_data: EnrollStudentData, current_user = Depends(verify_jwt)):
     try:
-        semester_str = enroll_data.semester.strip() if (enroll_data.semester and enroll_data.semester.strip()) else None
+        semester_num, err = parse_and_validate_semester(enroll_data.semester)
+        if err:
+            return {"status": "Error", "message": err}
         
         res = supabase_admin.schema("ai_student").table("enrollments") \
-            .update({"semester": semester_str}) \
+            .update({"semester": semester_num}) \
             .eq("module_id", module_id) \
             .eq("student_id", student_id) \
             .execute()
@@ -614,12 +631,11 @@ def update_student_enrollment(module_id: str, student_id: str, enroll_data: Enro
         if not res.data:
             return {"status": "Error", "message": f"Enrollment record not found for student '{student_id}' in module '{module_id}'."}
 
-        if semester_str:
-            supabase_admin.schema("ai_student").table("profile").update({"semester": semester_str}).eq("id", student_id).execute()
+        supabase_admin.schema("ai_student").table("profile").update({"semester": semester_num}).eq("id", student_id).execute()
 
         return {
             "status": "Success",
-            "message": "Enrollment updated successfully!",
+            "message": f"Enrollment updated to Semester {semester_num} successfully!",
             "enrollment": res.data[0]
         }
     except Exception as e:
@@ -705,14 +721,25 @@ def get_student_dashboard(current_user = Depends(verify_jwt)):
 
         enrolled_modules = []
         if enroll_res.data:
-            module_ids = [e["module_id"] for e in enroll_res.data]
+            enroll_map = {e["module_id"]: e for e in enroll_res.data}
+            module_ids = list(enroll_map.keys())
             mod_res = supabase_admin.schema("ai_student").table("modules") \
                 .select("id, name, code, description") \
                 .in_("id", module_ids) \
                 .execute()
             
             if mod_res.data:
-                enrolled_modules = mod_res.data
+                for m in mod_res.data:
+                    m_id = m["id"]
+                    e_info = enroll_map.get(m_id, {})
+                    enrolled_modules.append({
+                        "id": m["id"],
+                        "name": m["name"],
+                        "code": m["code"],
+                        "description": m["description"],
+                        "semester": e_info.get("semester"),
+                        "enrolled_at": e_info.get("enrolled_at")
+                    })
 
         return {
             "status": "Success",
