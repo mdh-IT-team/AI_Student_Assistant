@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../styles/style.css';
 import { logout, fetchMe } from '../auth';
 import { fetchDashboard } from '../api';
+import AiChatBox from './AiChatBox';
 
 export default function DashboardStudentPage({ onNavigate }) {
   const [modules, setModules] = useState([]);
   const [semester, setSemester] = useState('—');
   const [userName, setUserName] = useState('Student');
-  const [chatMessage, setChatMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -29,11 +29,6 @@ export default function DashboardStudentPage({ onNavigate }) {
       .finally(() => setLoading(false));
   }, []);
 
-  function handleSendChat() {
-    if (!chatMessage) return;
-    alert(`AI Tutor: Let me help you with "${chatMessage}"`);
-    setChatMessage('');
-  }
 
   return (
     <div className="dashboard-layout">
@@ -101,24 +96,8 @@ export default function DashboardStudentPage({ onNavigate }) {
                 )}
               </div>
 
-              <div className="dashboard-panel">
-                <div className="panel-header"><h3>AI Tutor</h3></div>
-                <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '15px' }}>
-                  Hi {userName}! What would you like to learn today?
-                </p>
-                <div className="chat-input-container">
-                  <input
-                    type="text"
-                    placeholder="Ask me anything..."
-                    className="chat-input"
-                    value={chatMessage}
-                    onChange={(e) => setChatMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendChat()}
-                  />
-                  <button className="btn-primary" onClick={handleSendChat}>Send</button>
-                </div>
-              </div>
             </div>
+          <AiChatBox role="student" userName={userName} />
           </>
         )}
       </main>

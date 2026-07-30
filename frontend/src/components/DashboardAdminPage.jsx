@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/style.css';
+import AiChatBox from './AiChatBox';
 
 export default function DashboardAdminPage({ onNavigate }) {
   const [teacherEmail, setTeacherEmail] = useState('');
-  const [chatMessage, setChatMessage] = useState('');
   const [userName, setUserName] = useState('Admin');
 
   useEffect(() => {
@@ -30,15 +30,6 @@ export default function DashboardAdminPage({ onNavigate }) {
     }
   };
 
-  const handleSendChat = () => {
-    if (chatMessage) {
-      // TODO: AI chat logic here
-      console.log('Chat message:', chatMessage);
-      // Simulate AI response
-      alert(`AI: I received your message: "${chatMessage}"`);
-      setChatMessage('');
-    }
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -106,9 +97,9 @@ export default function DashboardAdminPage({ onNavigate }) {
               Enter teacher email to send an invitation
             </p>
             <div className="chat-input-container">
-              <input 
-                type="email" 
-                placeholder="teacher@email.com" 
+              <input
+                type="email"
+                placeholder="teacher@email.com"
                 className="chat-input"
                 value={teacherEmail}
                 onChange={(e) => setTeacherEmail(e.target.value)}
@@ -117,27 +108,8 @@ export default function DashboardAdminPage({ onNavigate }) {
               <button className="btn-primary" onClick={handleAddTeacher}>Send Invite</button>
             </div>
           </div>
-
-          <div className="dashboard-panel">
-            <div className="panel-header">
-              <h3>AI Assistant</h3>
-            </div>
-            <p style={{fontSize: '0.9rem', color: '#64748b', marginBottom: '15px'}}>
-              Ask me anything about your institution
-            </p>
-            <div className="chat-input-container">
-              <input 
-                type="text" 
-                placeholder="Talk to me..." 
-                className="chat-input"
-                value={chatMessage}
-                onChange={(e) => setChatMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendChat()}
-              />
-              <button className="btn-primary" onClick={handleSendChat}>Send</button>
-            </div>
-          </div>
         </div>
+       <AiChatBox role="admin" userName={userName} />
       </main>
     </div>
   );
