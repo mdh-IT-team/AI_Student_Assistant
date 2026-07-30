@@ -5,128 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96f6e820-671a-4cc3-95da-f93700d2ae15" name="Changes" comment="bug fix options.data in main.py">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/AI_Stutend_Alex.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AI_Stutend_Alex.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/CHANGELOG.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/cookies.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/cookies.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/cookies.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/cookies.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/createBrowserClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/createBrowserClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/createBrowserClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/createBrowserClient.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/createServerClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/createServerClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/createServerClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/createServerClient.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/types.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/base64url.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/base64url.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/base64url.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/base64url.test.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/base64url.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/base64url.test.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/chunker.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/chunker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/chunker.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/chunker.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/constants.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/constants.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/helpers.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/helpers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/helpers.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/helpers.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/utils/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/version.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/version.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/version.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/warnDeprecatedPackage.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/warnDeprecatedPackage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/main/warnDeprecatedPackage.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/cookies.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/cookies.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/cookies.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/cookies.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/createBrowserClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/createBrowserClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/createBrowserClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/createBrowserClient.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/createServerClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/createServerClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/createServerClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/createServerClient.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/types.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/base64url.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/base64url.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/base64url.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/base64url.test.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/base64url.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/base64url.test.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/chunker.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/chunker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/chunker.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/chunker.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/constants.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/constants.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/helpers.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/helpers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/helpers.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/helpers.spec.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/utils/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/version.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/version.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/version.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/warnDeprecatedPackage.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/warnDeprecatedPackage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/dist/module/warnDeprecatedPackage.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/docs/design.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/release-please-config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/cookies.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/createBrowserClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/createServerClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/utils/base64url.test.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/utils/base64url.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/utils/chunker.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/utils/constants.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/utils/helpers.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/utils/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/version.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/src/warnDeprecatedPackage.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/ssr/tsconfig.main.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cookie/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cookie/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cookie/dist/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cookie/dist/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cookie/dist/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cookie/package.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,7 +141,7 @@
       <workItem from="1783603980505" duration="6835000" />
       <workItem from="1784121142769" duration="4789000" />
       <workItem from="1784813090333" duration="6392000" />
-      <workItem from="1785398344242" duration="9699000" />
+      <workItem from="1785398344242" duration="13992000" />
     </task>
     <task id="LOCAL-00001" summary="changes to main integration get/me get/dashboard">
       <option name="closed" value="true" />
@@ -358,13 +237,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Backend/main.py</url>
-          <line>48</line>
+          <line>49</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AI_Student_Assistant$main.coverage" NAME="main Coverage Results" MODIFIED="1780566538066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend" />
+    <SUITE FILE_PATH="coverage/AI_Student_Assistant$main.coverage" NAME="main Coverage Results" MODIFIED="1785420260384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Backend" />
   </component>
 </project>
