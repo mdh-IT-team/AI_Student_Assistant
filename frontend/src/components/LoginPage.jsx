@@ -48,8 +48,8 @@ export default function LoginPage({ onNavigate }) {
   return (
     <div className="login-container">
       <div className="login-card">
-        <div style={{fontSize: '3rem'}}>🤖</div>
-        <h2>Welcome Back!</h2>
+        <div style={{fontSize: '3rem'}}></div>
+        <h1>Welcome</h1>
         <p>Login to continue your learning journey.</p>
 
         {error && <p style={{ color: 'red', fontSize: '0.85rem', marginBottom: '10px' }}>{error}</p>}

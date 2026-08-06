@@ -2,17 +2,19 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/style.css';
 import AiChatBox from './AiChatBox';
 import { logout, fetchMe } from '../auth';
+import { SidebarIcons, initials } from './SidebarIcons';
 import {
   fetchDashboard, fetchTeachers, fetchStudents, fetchModules,
   createTeacher, createModule, setUserPassword, assignModules, isMock,
 } from '../api';
 
 const MENU = [
-  { key: 'home',     label: 'Home',     icon: '🏠' },
-  { key: 'teachers', label: 'Teachers', icon: '👨‍🏫' },
-  { key: 'students', label: 'Students', icon: '👩‍🎓' },
-  { key: 'modules',  label: 'Modules',  icon: '📚' },
-  { key: 'aichat',   label: 'AI Chat',  icon: '🤖' },
+  { key: 'home',     label: 'Home',     icon: SidebarIcons.home },
+  { key: 'teachers',     label: 'Teachers',     icon: SidebarIcons.teachers },
+  { key: 'students',     label: 'Students',     icon: SidebarIcons.students },
+  { key: 'modules',     label: 'Modules',     icon: SidebarIcons.modules },
+  { key: 'aichat',     label: 'AI Chat',     icon: SidebarIcons.aichat },
+
 ];
 
 function formatDate(v) {
@@ -44,7 +46,7 @@ export default function DashboardAdminPage({ onNavigate }) {
     <div className="dashboard-layout">
       <aside className="sidebar">
         <div>
-          <div className="logo">🤖 AI Student Assistant</div>
+          <div className="logo">AI Student Assistant</div>
           <ul className="sidebar-menu">
             {MENU.map(item => (
               <li key={item.key}>
@@ -63,8 +65,10 @@ export default function DashboardAdminPage({ onNavigate }) {
           type="button"
           className="sidebar-logout"
           onClick={() => { logout(); onNavigate('home'); }}
+          title="Logout"
         >
-          🚪 Logout
+         <span className="sidebar-icon-wrap">{SidebarIcons.logout}</span>
+         <span className="sidebar-label">Logout</span>
         </button>
       </aside>
 
@@ -72,8 +76,7 @@ export default function DashboardAdminPage({ onNavigate }) {
         <header className="top-header">
           <input type="text" placeholder="Search anything..." className="search-bar" />
           <div className="header-actions">
-            <span>🔔</span>
-            <div className="profile-widget">
+              <div className="profile-widget">
               <div className="avatar"></div>
               <span>Hi, {userName || '…'} ▾</span>
             </div>
@@ -184,7 +187,7 @@ function AdminHome({ userName }) {
   return (
     <>
       <div className="welcome-widget">
-        <h2>Hello, {userName || '…'} 👋</h2>
+        <h2>Hello, {userName || '…'}</h2>
         <p style={{ color: 'var(--text-muted)' }}>Manage your institution effectively!</p>
       </div>
 
@@ -196,9 +199,9 @@ function AdminHome({ userName }) {
         <p style={{ color: 'var(--text-muted)' }}>Loading dashboard…</p>
       ) : (
         <section className="stats-grid">
-          <div className="stat-card"><h3>{shown.teachers}</h3><p>Number of Teachers 👨‍🏫</p></div>
-          <div className="stat-card"><h3>{shown.students}</h3><p>Number of Students 👩‍🎓</p></div>
-          <div className="stat-card"><h3>{shown.modules}</h3><p>Number of Modules 📚</p></div>
+          <div className="stat-card"><h3>{shown.teachers}</h3><p>Number of Teachers</p></div>
+          <div className="stat-card"><h3>{shown.students}</h3><p>Number of Students</p></div>
+          <div className="stat-card"><h3>{shown.modules}</h3><p>Number of Modules</p></div>
         </section>
       )}
     </>
@@ -215,14 +218,14 @@ function PasswordModal({ user, onClose }) {
 
   async function save() {
     setMsg('');
-    if (pw.length < 6) return setMsg('⚠️ Password must be at least 6 characters.');
-    if (pw !== confirm) return setMsg('⚠️ Passwords do not match.');
+    if (pw.length < 6) return setMsg('Password must be at least 6 characters.');
+    if (pw !== confirm) return setMsg('Passwords do not match.');
     setSaving(true);
     try {
-      setMsg(`✅ ${await setUserPassword(user.id, pw)}`);
+      setMsg(`${await setUserPassword(user.id, pw)}`);
       setPw(''); setConfirm('');
     } catch (e) {
-      setMsg(`⚠️ ${e.message}`);
+      setMsg(`${e.message}`);
     } finally {
       setSaving(false);
     }
@@ -270,9 +273,9 @@ function AssignModulesModal({ student, modules, onClose }) {
     setMsg('');
     setSaving(true);
     try {
-      setMsg(`✅ ${await assignModules(student.id, selected)}`);
+      setMsg(`${await assignModules(student.id, selected)}`);
     } catch (e) {
-      setMsg(`⚠️ ${e.message}`);
+      setMsg(`${e.message}`);
     } finally {
       setSaving(false);
     }
@@ -323,11 +326,11 @@ function TeachersSection() {
     if (!email) return setMsg('Please enter a teacher email.');
     setSending(true);
     try {
-      setMsg(`✅ ${await createTeacher(email)}`);
+      setMsg(` ${await createTeacher(email)}`);
       setEmail('');
       reload();
     } catch (e) {
-      setMsg(`⚠️ ${e.message}`);
+      setMsg(`${e.message}`);
     } finally {
       setSending(false);
     }
@@ -453,15 +456,15 @@ function ModulesSection() {
   async function submit() {
     setMsg('');
     if (!form.name.trim() || !form.code.trim()) {
-      return setMsg('⚠️ Module name and code are both required.');
+      return setMsg('Module name and code are both required.');
     }
     setSaving(true);
     try {
-      setMsg(`✅ ${await createModule(form)}`);
+      setMsg(`${await createModule(form)}`);
       setForm({ name: '', code: '', description: '', teacher_id: '' });
       reload();
     } catch (e) {
-      setMsg(`⚠️ ${e.message}`);
+      setMsg(`${e.message}`);
     } finally {
       setSaving(false);
     }
