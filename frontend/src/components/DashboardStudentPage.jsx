@@ -3,23 +3,26 @@ import '../styles/style.css';
 import AiChatBox from './AiChatBox';
 import { SidebarIcons, initials } from './SidebarIcons';
 import { logout, fetchMe } from '../auth';
-import {
-   fetchDashboard, fetchTeachers, fetchStudents, fetchModules,
-   createTeacher, createModule, setUserPassword, assignModules, isMock,
- } from '../api';
-
+import { fetchDashboard } from '../api';
 
 const MENU = [
-  { key: 'home',    label: 'Home',       icon: SidebarIcons.home },
-  { key: 'teachers',label: 'Teachers',       icon: SidebarIcons.teachers },
-  { key: 'students',label: 'Student',       icon: SidebarIcons.students },
-  { key: 'modules', label: 'My Modules', icon: SidebarIcons.modules },
-  { key: 'aichat',  label: 'AI Tutor',   icon: SidebarIcons.aichat },
+  { key: 'home',    label: 'Home',     icon: SidebarIcons.home },
+  { key: 'modules', label: 'Modules',  icon: SidebarIcons.modules },
+  { key: 'aichat',  label: 'AI Chat',  icon: SidebarIcons.aichat },
 ];
-function formatDate(v) {
-  if (!v) return '—';
-  const d = new Date(v);
-  return isNaN(d) ? v : d.toLocaleDateString();
+
+// The backend may return modules as an array of objects or as a
+// comma-separated string, so normalise both into a plain list of names.
+function toModuleList(raw) {
+  if (Array.isArray(raw)) {
+    return raw
+      .map(m => (typeof m === 'string' ? m : (m.code || m.name)))
+      .filter(Boolean);
+  }
+  if (typeof raw === 'string') {
+    return raw.split(',').map(m => m.trim()).filter(Boolean);
+  }
+  return [];
 }
 
 export default function DashboardStudentPage({ onNavigate }) {
@@ -36,9 +39,7 @@ export default function DashboardStudentPage({ onNavigate }) {
     setLoading(true);
     fetchDashboard('student')
       .then(data => {
-        setModules(
-          (data.studying_modules || '').split(',').map(m => m.trim()).filter(Boolean)
-        );
+        setModules(toModuleList(data.studying_modules));
         setSemester(data.semester || 'Not specified');
         setError('');
       })
@@ -177,7 +178,7 @@ function StudentHome({ userName, modules, semester, loading, error }) {
   );
 }
 
-/* ---------------- My Modules ---------------- */
+/* ---------------- Modules ---------------- */
 
 function ModulesSection({ modules, loading, error, userName, onReload }) {
   return (
