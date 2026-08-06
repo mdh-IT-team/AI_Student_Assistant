@@ -1,4 +1,5 @@
 import React from 'react';
+import { MessageSquare, ClipboardList, Calendar, BarChart3, Bot } from 'lucide-react';
 import '../styles/style.css';
 
 export default function HomePage({ onNavigate }) {
@@ -24,7 +25,10 @@ export default function HomePage({ onNavigate }) {
           </div>
         </div>
         <div className="hero-image">
-          <div style={{fontSize: '8rem'}}>🤖📚</div>
+            <div className="hero-emoji-stack">
+              <span className="hero-emoji hero-emoji-robot">🤖</span>
+              <span className="hero-emoji hero-emoji-books">📚</span>
+            </div>
         </div>
       </section>
 
@@ -32,22 +36,22 @@ export default function HomePage({ onNavigate }) {
         <h2>Features</h2>
         <div className="features-grid">
           <div className="feature-card">
-            <div className="icon">💬</div>
+            <div className="icon"><MessageSquare size={28} /></div>
             <h3>AI Tutoring</h3>
             <p>Get explanations and answers to your questions instantly.</p>
           </div>
           <div className="feature-card">
-            <div className="icon">📋</div>
+            <div className="icon"><ClipboardList size={28} /></div>
             <h3>Task Manager</h3>
             <p>Organize assignments, set deadlines, and stay on track.</p>
           </div>
           <div className="feature-card">
-            <div className="icon">📅</div>
+            <div className="icon"><Calendar size={28} /></div>
             <h3>Study Planner</h3>
             <p>Plan your study schedule and boost your productivity.</p>
           </div>
           <div className="feature-card">
-            <div className="icon">📊</div>
+            <div className="icon"><BarChart3 size={28} /></div>
             <h3>Progress Tracking</h3>
             <p>Track your progress and achieve your academic goals.</p>
           </div>

@@ -3,17 +3,31 @@ import '../styles/style.css';
 import { logout, fetchMe } from '../auth';
 import { fetchDashboard } from '../api';
 import AiChatBox from './AiChatBox';
+import { SidebarIcons, initials } from './SidebarIcons';
+
+const MENU = [
+  { key: 'dash',     label: 'Dashboard',  icon: SidebarIcons.home,     active: true },
+  { key: 'modules',  label: 'My Modules', icon: SidebarIcons.modules },
+  { key: 'students', label: 'Students',   icon: SidebarIcons.students },
+  { key: 'aichat',   label: 'AI Chat',    icon: SidebarIcons.aichat },
+  { key: 'settings', label: 'Settings',   icon: SidebarIcons.settings },
+];
 
 export default function DashboardTeacherPage({ onNavigate }) {
   const [modules, setModules] = useState([]);
   const [selectedModule, setSelectedModule] = useState(null);
   const [userName, setUserName] = useState('Professor');
+  const [userEmail, setUserEmail] = useState('');
+  const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     fetchMe().then(user => {
-      if (user) setUserName(user.name || user.email?.split('@')[0] || 'Professor');
+      if (user) {
+        setUserName(user.name || user.email?.split('@')[0] || 'Professor');
+        setUserEmail(user.email || '');
+      }
     });
 
     fetchDashboard('teacher')
@@ -60,18 +74,55 @@ export default function DashboardTeacherPage({ onNavigate }) {
 
   return (
     <div className="dashboard-layout">
-      <aside className="sidebar">
+      <aside className={`sidebar${collapsed ? ' collapsed' : ''}`}>
         <div>
-          <div className="logo">🤖 AI Student Assistant</div>
+          <div className="sidebar-top-row">
+            {!collapsed && <div className="logo">🤖 AI Student Assistant</div>}
+            <button
+              type="button"
+              className={`sidebar-toggle${collapsed ? ' collapsed-icon' : ''}`}
+              onClick={() => setCollapsed(c => !c)}
+              title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {SidebarIcons.collapse}
+            </button>
+          </div>
+
           <ul className="sidebar-menu">
-            <li><a href="#dash" className="sidebar-item active">📊 Dashboard</a></li>
-            <li><a href="#modules" className="sidebar-item">📚 My Modules</a></li>
-            <li><a href="#students" className="sidebar-item">👥 Students</a></li>
-            <li><a href="#aichat" className="sidebar-item">🔮 AI Chat</a></li>
-            <li><a href="#settings" className="sidebar-item">⚙️ Settings</a></li>
+            {MENU.map(item => (
+              <li key={item.key}>
+                <a
+                  href={`#${item.key}`}
+                  className={`sidebar-item${item.active ? ' active' : ''}`}
+                  title={item.label}
+                >
+                  <span className="sidebar-icon-wrap">{item.icon}</span>
+                  <span className="sidebar-label">{item.label}</span>
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
-        <a href="#logout" className="sidebar-logout" onClick={() => { logout(); onNavigate('home'); }}>🚪 Logout</a>
+
+        <div>
+          <a
+            href="#logout"
+            className="sidebar-logout"
+            onClick={() => { logout(); onNavigate('home'); }}
+            title="Logout"
+          >
+            <span className="sidebar-icon-wrap">{SidebarIcons.logout}</span>
+            <span className="sidebar-label">Logout</span>
+          </a>
+
+          <div className="sidebar-profile">
+            <div className="sidebar-profile-avatar">{initials(userName || userEmail)}</div>
+            <div className="sidebar-profile-text">
+              <div className="sidebar-profile-name">{userName}</div>
+              <div className="sidebar-profile-email">{userEmail}</div>
+            </div>
+          </div>
+        </div>
       </aside>
 
       <main className="main-content">

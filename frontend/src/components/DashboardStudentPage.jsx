@@ -1,18 +1,32 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/style.css';
 import AiChatBox from './AiChatBox';
+import { SidebarIcons, initials } from './SidebarIcons';
 import { logout, fetchMe } from '../auth';
-import { fetchDashboard } from '../api';
+import {
+   fetchDashboard, fetchTeachers, fetchStudents, fetchModules,
+   createTeacher, createModule, setUserPassword, assignModules, isMock,
+ } from '../api';
+
 
 const MENU = [
-  { key: 'home',    label: 'Home',       icon: '🏠' },
-  { key: 'modules', label: 'My Modules', icon: '📚' },
-  { key: 'aichat',  label: 'AI Tutor',   icon: '🔮' },
+  { key: 'home',    label: 'Home',       icon: SidebarIcons.home },
+  { key: 'teachers',label: 'Teachers',       icon: SidebarIcons.teachers },
+  { key: 'students',label: 'Student',       icon: SidebarIcons.students },
+  { key: 'modules', label: 'My Modules', icon: SidebarIcons.modules },
+  { key: 'aichat',  label: 'AI Tutor',   icon: SidebarIcons.aichat },
 ];
+function formatDate(v) {
+  if (!v) return '—';
+  const d = new Date(v);
+  return isNaN(d) ? v : d.toLocaleDateString();
+}
 
 export default function DashboardStudentPage({ onNavigate }) {
   const [section, setSection] = useState('home');
   const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [collapsed, setCollapsed] = useState(false);
   const [modules, setModules] = useState([]);
   const [semester, setSemester] = useState('—');
   const [loading, setLoading] = useState(true);
@@ -33,7 +47,11 @@ export default function DashboardStudentPage({ onNavigate }) {
   }, []);
 
   useEffect(() => {
-    fetchMe().then(u => u && setUserName(u.name || u.email?.split('@')[0] || ''));
+    fetchMe().then(u => {
+      if (!u) return;
+      setUserName(u.name || u.email?.split('@')[0] || '');
+      setUserEmail(u.email || '');
+    });
     load();
   }, [load]);
 
@@ -62,9 +80,20 @@ export default function DashboardStudentPage({ onNavigate }) {
 
   return (
     <div className="dashboard-layout">
-      <aside className="sidebar">
+      <aside className={`sidebar${collapsed ? ' collapsed' : ''}`}>
         <div>
-          <div className="logo">🤖 AI Student Assistant</div>
+          <div className="sidebar-top-row">
+            {!collapsed && <div className="logo">🤖 AI Student Assistant</div>}
+            <button
+              type="button"
+              className={`sidebar-toggle${collapsed ? ' collapsed-icon' : ''}`}
+              onClick={() => setCollapsed(c => !c)}
+              title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {SidebarIcons.collapse}
+            </button>
+          </div>
+
           <ul className="sidebar-menu">
             {MENU.map(item => (
               <li key={item.key}>
@@ -72,27 +101,41 @@ export default function DashboardStudentPage({ onNavigate }) {
                   type="button"
                   className={`sidebar-item${section === item.key ? ' active' : ''}`}
                   onClick={() => setSection(item.key)}
+                  title={item.label}
                 >
-                  {item.icon} {item.label}
+                  <span className="sidebar-icon-wrap">{item.icon}</span>
+                  <span className="sidebar-label">{item.label}</span>
                 </button>
               </li>
             ))}
           </ul>
         </div>
-        <button
-          type="button"
-          className="sidebar-logout"
-          onClick={() => { logout(); onNavigate('home'); }}
-        >
-          🚪 Logout
-        </button>
+
+        <div>
+          <button
+            type="button"
+            className="sidebar-logout"
+            onClick={() => { logout(); onNavigate('home'); }}
+            title="Logout"
+          >
+            <span className="sidebar-icon-wrap">{SidebarIcons.logout}</span>
+            <span className="sidebar-label">Logout</span>
+          </button>
+
+          <div className="sidebar-profile">
+            <div className="sidebar-profile-avatar">{initials(userName || userEmail)}</div>
+            <div className="sidebar-profile-text">
+              <div className="sidebar-profile-name">{userName || 'Student'}</div>
+              <div className="sidebar-profile-email">{userEmail}</div>
+            </div>
+          </div>
+        </div>
       </aside>
 
       <main className="main-content">
         <header className="top-header">
           <input type="text" placeholder="Search anything..." className="search-bar" />
           <div className="header-actions">
-            <span>🔔</span>
             <div className="profile-widget">
               <div className="avatar"></div>
               <span>Hi, {userName || '…'} ▾</span>
@@ -111,7 +154,7 @@ function StudentHome({ userName, modules, semester, loading, error }) {
   return (
     <>
       <div className="welcome-widget">
-        <h2>Hello, {userName || '…'} 👋</h2>
+        <h2>Hello, {userName || '…'}</h2>
         <p style={{ color: 'var(--text-muted)' }}>Let's make today productive!</p>
       </div>
 
@@ -122,11 +165,11 @@ function StudentHome({ userName, modules, semester, loading, error }) {
         <section className="stats-grid">
           <div className="stat-card">
             <h3>{modules.length}</h3>
-            <p>Modules Enrolled 📚</p>
+            <p>Modules Enrolled </p>
           </div>
           <div className="stat-card">
             <h3>{semester}</h3>
-            <p>Current Semester 🗓️</p>
+            <p>Current Semester </p>
           </div>
         </section>
       )}
