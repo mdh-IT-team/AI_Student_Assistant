@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import '../styles/style.css';
 import { logout, fetchMe } from '../auth';
 import { fetchDashboard } from '../api';
+import { SidebarIcons } from './SidebarIcons';
+
+const TEACHER_MENU = [
+  { key: 'home', label: 'Home', icon: SidebarIcons.home },
+  { key: 'modules', label: 'Modules', icon: SidebarIcons.modules },
+  { key: 'students', label: 'Students', icon: SidebarIcons.students },
+  { key: 'aichat', label: 'AI Chat', icon: SidebarIcons.aichat },
+];
 
 export default function DashboardTeacherPage({ onNavigate }) {
   const [modules, setModules] = useState([]);
@@ -397,65 +405,43 @@ async function handleChangePassword(event) {
     <div className="dashboard-layout">
       <aside className="sidebar">
         <div>
-          <div className="logo">🤖 AI Student Assistant</div>
+          <div className="logo">AI Student Assistant</div>
 
           <ul className="sidebar-menu">
-            <li>
-              <button
-                type="button"
-                className={`sidebar-item ${activeSection === 'home' ? 'active' : ''}`}
-                onClick={() => setActiveSection('home')}
-              >
-                🏠 Homepage
-              </button>
-            </li>
+            {TEACHER_MENU.map(item => (
+              <li key={item.key}>
+                <button
+                  type="button"
+                  className={`sidebar-item${activeSection === item.key ? ' active' : ''}`}
+                  onClick={() => {
+                    if (item.key === 'students') {
+                      setStudentsViewMode('all');
+                    }
 
-            <li>
-              <button
-                type="button"
-                className={`sidebar-item ${activeSection === 'modules' ? 'active' : ''}`}
-                onClick={() => setActiveSection('modules')}
-              >
-                📚 Modules
-              </button>
-            </li>
-
-            <li>
-              <button
-                type="button"
-                className={`sidebar-item ${activeSection === 'students' ? 'active' : ''}`}
-                onClick={() => {
-                  setStudentsViewMode('all');
-                  setActiveSection('students');
-                }}
-              >
-                👥 Students
-              </button>
-            </li>
-
-            <li>
-              <button
-                type="button"
-                className={`sidebar-item ${activeSection === 'aichat' ? 'active' : ''}`}
-                onClick={() => setActiveSection('aichat')}
-              >
-                🔮 AI Chat
-              </button>
-            </li>
-
+                    setProfileMenuOpen(false);
+                    setActiveSection(item.key);
+                  }}
+                >
+                  <span className="sidebar-icon-wrap">{item.icon}</span>
+                  <span className="sidebar-label">{item.label}</span>
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
 
-        <a
-          href="#logout"
+        <button
+          type="button"
           className="sidebar-logout"
           onClick={() => {
             logout();
             onNavigate('home');
           }}
+          title="Logout"
         >
-          🚪 Logout
-        </a>
+          <span className="sidebar-icon-wrap">{SidebarIcons.logout}</span>
+          <span className="sidebar-label">Logout</span>
+        </button>
       </aside>
 
       <main className="main-content">
@@ -467,11 +453,9 @@ async function handleChangePassword(event) {
           />
 
           <div className="header-actions">
-            <span>🔔</span>
-
             <div
               className="profile-widget"
-              style={{ position: 'relative', cursor: 'pointer' }}
+              style={{ position: 'relative' }}
             >
               <button
                 type="button"
@@ -488,8 +472,17 @@ async function handleChangePassword(event) {
                   font: 'inherit',
                 }}
               >
-                <div className="avatar"></div>
-                <span>Hi, {userName}! ▾</span>
+                <div
+                  className="avatar"
+                  style={{
+                    backgroundImage: profileImage
+                      ? `url(${profileImage})`
+                      : undefined,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                />
+                <span>Hi, {userName || '…'} ▾</span>
               </button>
 
               {profileMenuOpen && (
@@ -499,8 +492,8 @@ async function handleChangePassword(event) {
                     top: 'calc(100% + 12px)',
                     right: 0,
                     minWidth: '180px',
-                    background: '#ffffff',
-                    border: '1px solid #e2e8f0',
+                    background: 'var(--bg-white, #ffffff)',
+                    border: '1px solid var(--border-color, #e2e8f0)',
                     borderRadius: '12px',
                     boxShadow: '0 12px 30px rgba(15, 23, 42, 0.14)',
                     padding: '8px',
@@ -544,7 +537,7 @@ async function handleChangePassword(event) {
                       textAlign: 'left',
                       borderRadius: '8px',
                       cursor: 'pointer',
-                      color: '#dc2626',
+                      color: 'var(--danger-color, #dc2626)',
                       font: 'inherit',
                     }}
                   >
