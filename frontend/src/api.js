@@ -4,11 +4,11 @@ const BASE = 'http://localhost:8000';
 
 // Flip to false as each backend endpoint goes live.
 export const USE_MOCK = {
-  teachers: true,
-  students: true,
-  modules: true,
-  setPassword: true,
-  assignModules: true,
+  teachers: false,
+  students: false,
+  modules: true,        // no GET /api/modules yet
+  setPassword: true,    // no admin password endpoint yet
+  assignModules: true,  // enroll works, but needs module IDs from the list above
 };
 
 async function request(path, options = {}) {
@@ -34,31 +34,29 @@ function mock(data, ms = 300) {
   return new Promise(resolve => setTimeout(() => resolve(data), ms));
 }
 
-/* ---------- Sample data (delete once endpoints exist) ---------- */
-
-const MOCK_TEACHERS = [
-  { id: 't1', name: 'Ana Kovač',    email: 'ana.kovac@school.edu',  date_created: '2026-02-11' },
-  { id: 't2', name: 'David Miller', email: 'd.miller@school.edu',   date_created: '2026-03-04' },
-  { id: 't3', name: 'Sara Novak',   email: 'sara.novak@school.edu', date_created: '2026-05-19' },
-];
-
-const MOCK_STUDENTS = [
-  { id: 's1', name: 'Luka Perić',   email: 'luka.peric@school.edu',  date_created: '2026-01-15', module_study: 'CS201' },
-  { id: 's2', name: 'Emma Schmidt', email: 'e.schmidt@school.edu',   date_created: '2026-01-15', module_study: 'CS201,CS210' },
-  { id: 's3', name: 'Marko Jurić',  email: 'marko.juric@school.edu', date_created: '2026-02-20', module_study: '' },
-  { id: 's4', name: 'Nina Berger',  email: 'nina.berger@school.edu', date_created: '2026-04-02', module_study: 'CS210' },
-];
-
 const MOCK_MODULES = [
-  { id: 'm1', name: 'Introduction to Databases', code: 'CS201', teacher_id: 't1', teacher_name: 'Ana Kovač',    description: 'Relational design and SQL.' },
-  { id: 'm2', name: 'Web Development',           code: 'CS210', teacher_id: 't2', teacher_name: 'David Miller', description: 'HTML, CSS, React.' },
+  { id: 'm1', name: 'Introduction to Databases', code: 'CS201', teacher_name: 'Ana Kovač',    description: 'Relational design and SQL.' },
+  { id: 'm2', name: 'Web Development',           code: 'CS210', teacher_name: 'David Miller', description: 'HTML, CSS, React.' },
 ];
 
-/* ---------- Real endpoints ---------- */
+/* ---------- Real ---------- */
 
 export async function fetchDashboard(role) {
   const json = await request(`/api/dashboard/${role}`);
   return json.data;
+}
+
+async function fetchUsers() {
+  const json = await request('/admin/users');
+  return json.users || [];
+}
+
+export async function fetchTeachers() {
+  return (await fetchUsers()).filter(u => u.role === 'teacher');
+}
+
+export async function fetchStudents() {
+  return (await fetchUsers()).filter(u => u.role === 'student');
 }
 
 export async function createTeacher(email) {
@@ -77,27 +75,32 @@ export async function createModule({ name, code, description, teacher_id }) {
   return json.message;
 }
 
-/* ---------- Lists ---------- */
-
-export async function fetchTeachers() {
-  if (USE_MOCK.teachers) return mock(MOCK_TEACHERS);
-  const json = await request('/admin/users');
-  return (json.users || []).filter(u => u.role === 'teacher');
+export async function enrollStudent(moduleId, studentId, semester) {
+  const json = await request(`/api/modules/${moduleId}/enroll/${studentId}/${semester}`, {
+    method: 'POST',
+  });
+  return json.message;
 }
 
-export async function fetchStudents() {
-  if (USE_MOCK.students) return mock(MOCK_STUDENTS);
-  const json = await request('/admin/users');
-  return (json.users || []).filter(u => u.role === 'student');
+export async function unenrollStudent(moduleId, studentId) {
+  const json = await request(`/api/modules/${moduleId}/enroll/${studentId}`, {
+    method: 'DELETE',
+  });
+  return json.message;
 }
+
+export async function fetchModuleStudents(moduleId) {
+  const json = await request(`/api/modules/${moduleId}/students`);
+  return json.students || [];
+}
+
+/* ---------- Awaiting backend ---------- */
 
 export async function fetchModules() {
   if (USE_MOCK.modules) return mock(MOCK_MODULES);
   const json = await request('/api/modules');
   return json.modules || [];
 }
-
-/* ---------- Awaiting backend ---------- */
 
 export async function setUserPassword(userId, newPassword) {
   if (USE_MOCK.setPassword) {
@@ -111,16 +114,20 @@ export async function setUserPassword(userId, newPassword) {
   return json.message;
 }
 
-export async function assignModules(userId, moduleCodes) {
+// Enrolls the modules that were newly ticked and removes the ones unticked.
+export async function assignModules(studentId, moduleIds, previousIds = [], semester = 1) {
   if (USE_MOCK.assignModules) {
     await mock(null, 400);
-    return 'Modules assigned (not saved — endpoint pending).';
+    return 'Modules assigned (not saved — module list endpoint pending).';
   }
-  const json = await request(`/admin/users/${userId}/modules`, {
-    method: 'PUT',
-    body: JSON.stringify({ module_study: moduleCodes.join(',') }),
-  });
-  return json.message;
+  const toAdd = moduleIds.filter(id => !previousIds.includes(id));
+  const toRemove = previousIds.filter(id => !moduleIds.includes(id));
+
+  await Promise.all([
+    ...toAdd.map(id => enrollStudent(id, studentId, semester)),
+    ...toRemove.map(id => unenrollStudent(id, studentId)),
+  ]);
+  return 'Enrollment updated.';
 }
 
 export function isMock(key) {
