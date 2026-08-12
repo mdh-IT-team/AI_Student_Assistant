@@ -43,8 +43,10 @@ app.add_middleware(
 
 from security import verify_jwt, RoleChecker
 from files import files_router
+from tutor import tutor_router
 
 app.include_router(files_router)
+app.include_router(tutor_router)
 
 allow_admin = RoleChecker(["admin"])
 allow_teacher = RoleChecker(["teacher", "admin"])
