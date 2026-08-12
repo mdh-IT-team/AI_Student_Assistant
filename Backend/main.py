@@ -113,7 +113,7 @@ def check_status():
 @app.post("/auth/register")
 def register(user_data: RegisterData):
     try:
-        # wrapping the role inside  options.data
+     
         response = supabase.auth.sign_up({
             "email": user_data.email,
             "password": user_data.password,
@@ -191,10 +191,10 @@ def logout():
 @app.post("/auth/change-password")
 def change_password(
         password_data: ChangePasswordData,
-        current_user=Depends(verify_jwt)  # extracts user ID from the valid token
+        current_user=Depends(verify_jwt)  
 ):
     try:
-        # admin client to  force the password update for this specific ID
+       
         response = supabase_admin.auth.admin.update_user_by_id(
             current_user.id,
             {"password": password_data.new_password}
@@ -209,7 +209,7 @@ def change_password(
 @app.post("/auth/forgot-password")
 def forgot_password(forgot_data: ForgotPasswordData):
     try:
-        # trigger password reset email from supabase
+        
         supabase.auth.reset_password_for_email(
             forgot_data.email,
             options={
@@ -223,9 +223,7 @@ def forgot_password(forgot_data: ForgotPasswordData):
 
 @app.get("/api/me")
 def get_current_user(current_user=Depends(verify_jwt)):
-    # fetch secure role and name values from db
-    # NOTE: must use supabase_admin — the anon client is blocked by RLS and
-    # returns zero rows, which silently defaults every user to "student".
+
     role = "student"
     name = None
     try:
@@ -319,12 +317,12 @@ def change_user_role(user_id: str, role_data: UserRoleData):
 @app.get("/api/dashboard/admin", dependencies=[Depends(allow_admin)])
 def get_admin_dashboard(current_user = Depends(verify_jwt)):
     try:
-        # fetch all users to count teachers and students securely
+      
         users_res = supabase_admin.schema("ai_student").table("users").select("role").execute()
         teachers_count = sum(1 for u in users_res.data if u.get("role") == "teacher")
         students_count = sum(1 for u in users_res.data if u.get("role") == "student")
 
-        # Count total modules cleanly from modules table
+      
         modules_res = supabase_admin.schema("ai_student").table("modules").select("id", count="exact").execute()
         modules_count = modules_res.count if modules_res.count is not None else (len(modules_res.data) if modules_res.data else 0)
 
@@ -353,12 +351,12 @@ def create_module(module_data: CreateModuleData):
         return {"status": "Error", "message": "Module 'name' and 'code' cannot be empty."}
 
     try:
-        # Check if code already exists
+     
         existing = supabase_admin.schema("ai_student").table("modules").select("id").eq("code", code).execute()
         if existing.data:
             return {"status": "Error", "message": f"Module with code '{code}' already exists."}
 
-        # If teacher_id is provided, verify assigned user exists and is a teacher
+       
         assigned_teacher_id = module_data.teacher_id
         if assigned_teacher_id:
             t_res = supabase_admin.schema("ai_student").table("users") \
@@ -368,7 +366,7 @@ def create_module(module_data: CreateModuleData):
             if t_res.data[0].get("role") != "teacher":
                 return {"status": "Error", "message": f"User '{assigned_teacher_id}' is not a teacher (role: '{t_res.data[0].get('role')}')."}
 
-        # Insert module record
+     
         new_module_id = str(uuid_lib.uuid4())
         res = supabase_admin.schema("ai_student").table("modules").insert({
             "id": new_module_id,
@@ -391,7 +389,7 @@ def create_module(module_data: CreateModuleData):
 @app.post("/admin/create-teacher", dependencies=[Depends(allow_admin)])
 def invite_teacher(invite_data: InviteTeacherData):
     try:
-        # send invite via supabase admin auth
+        
         response = supabase_admin.auth.admin.invite_user_by_email(
             invite_data.email,
             options={
@@ -409,7 +407,7 @@ def invite_teacher(invite_data: InviteTeacherData):
     new_user_id = response.user.id
 
     try:
-        # sync auth user to db users and profile tables
+        
         supabase_admin.schema("ai_student").table("users").insert({
             "id": new_user_id,
             "name": invite_data.email.split("@")[0],
@@ -440,7 +438,7 @@ def invite_teacher(invite_data: InviteTeacherData):
 @app.post("/admin/create-student", dependencies=[Depends(allow_admin)])
 def invite_student(invite_data: InviteStudentData):
     try:
-        # send invite via supabase admin auth
+        
         response = supabase_admin.auth.admin.invite_user_by_email(
             invite_data.email,
             options={
@@ -458,7 +456,7 @@ def invite_student(invite_data: InviteStudentData):
     new_user_id = response.user.id
 
     try:
-        # sync auth user to db users and profile tables
+      
         supabase_admin.schema("ai_student").table("users").insert({
             "id": new_user_id,
             "name": invite_data.email.split("@")[0],
@@ -489,7 +487,7 @@ def invite_student(invite_data: InviteStudentData):
 @app.get("/api/dashboard/teacher", dependencies=[Depends(allow_teacher)])
 def get_teacher_dashboard(current_user = Depends(verify_jwt)):
     try:
-        # Fetch real modules assigned to this teacher from the modules table
+   
         modules_res = supabase_admin.schema("ai_student").table("modules") \
             .select("id, name, code, description, created_at") \
             .eq("teacher_id", current_user.id) \
@@ -558,27 +556,26 @@ def enroll_student_in_module(
     try:
         semester_str = str(semester)
 
-        # 1. Verify student exists and is a student
+     
         student_res = supabase_admin.schema("ai_student").table("users").select("id, name, email, role").eq("id", student_id).execute()
         if not student_res.data:
             return {"status": "Error", "message": f"Student with ID '{student_id}' not found."}
         if student_res.data[0].get("role") != "student":
             return {"status": "Error", "message": f"User '{student_id}' is not a student (role: '{student_res.data[0].get('role')}')."}
 
-        # 2. Verify module exists
+   
         module_res = supabase_admin.schema("ai_student").table("modules").select("id, name, code, teacher_id").eq("id", module_id).execute()
         if not module_res.data:
             return {"status": "Error", "message": f"Module with ID '{module_id}' not found."}
         
         module_info = module_res.data[0]
 
-        # 3. Check teacher ownership if caller is a teacher
+    
         caller_res = supabase_admin.schema("ai_student").table("users").select("role").eq("id", current_user.id).execute()
         caller_role = caller_res.data[0]["role"] if caller_res.data else "teacher"
         if caller_role == "teacher" and module_info.get("teacher_id") != current_user.id:
             return {"status": "Error", "message": "Access denied: Teachers can only manage enrollments for their own modules."}
 
-        # 4. Insert or update enrollment with clean numeric semester string
         new_enrollment_id = str(uuid_lib.uuid4())
         enroll_res = supabase_admin.schema("ai_student").table("enrollments").upsert({
             "id": new_enrollment_id,
@@ -588,7 +585,7 @@ def enroll_student_in_module(
             "enrolled_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }, on_conflict="student_id, module_id").execute()
 
-        # Legacy sync to profile
+        
         supabase_admin.schema("ai_student").table("profile").update({"semester": semester_str}).eq("id", student_id).execute()
 
         return {
@@ -606,7 +603,7 @@ def enroll_student_in_module(
 @app.delete("/api/modules/{module_id}/enroll/{student_id}", dependencies=[Depends(allow_teacher)])
 def remove_student_from_module(module_id: str, student_id: str, current_user = Depends(verify_jwt)):
     try:
-        # Check teacher ownership if caller is a teacher
+
         module_res = supabase_admin.schema("ai_student").table("modules").select("teacher_id").eq("id", module_id).execute()
         if module_res.data:
             caller_res = supabase_admin.schema("ai_student").table("users").select("role").eq("id", current_user.id).execute()
@@ -674,7 +671,7 @@ def get_student_dashboard(current_user = Depends(verify_jwt)):
         profile_response = supabase_admin.schema("ai_student").table("profile").select("semester").eq("id", current_user.id).execute()
         student_semester = profile_response.data[0].get("semester") if profile_response.data else "Not specified"
 
-        # Query real enrollments table for this student
+     
         enroll_res = supabase_admin.schema("ai_student").table("enrollments") \
             .select("module_id, semester, enrolled_at") \
             .eq("student_id", current_user.id) \
