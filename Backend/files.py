@@ -10,7 +10,7 @@ from security import verify_jwt
 
 files_router = APIRouter(prefix="/api/files", tags=["files"])
 
-# Base directory for local fallback storage
+
 UPLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
 METADATA_FILE = os.path.join(UPLOAD_DIR, "metadata.json")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -65,14 +65,13 @@ async def upload_file(
 
         if supabase_admin:
             try:
-                # 1. Upload file binary to Supabase Storage bucket 'materials'
+            
                 supabase_admin.storage.from_(SUPABASE_BUCKET).upload(
                     path=storage_path,
                     file=content,
                     file_options={"content-type": content_type, "upsert": "true"}
                 )
 
-                # 2. Insert metadata record into Supabase Database table ai_student.materials
                 db_payload = {
                     "id": file_id,
                     "user_id": uploader_id,
@@ -88,7 +87,6 @@ async def upload_file(
             except Exception as sb_err:
                 print(f"Supabase upload/db insert warning (falling back to local storage): {sb_err}")
 
-        # Fallback to local storage if Supabase upload failed or not connected
         if not used_supabase:
             safe_filename = f"{file_id}_{file.filename}"
             local_path = os.path.join(UPLOAD_DIR, safe_filename)
@@ -137,10 +135,10 @@ def list_files(user: SimpleNamespace = Depends(verify_jwt)):
     supabase_admin = get_supabase_admin()
     if supabase_admin:
         try:
-            # Query Supabase PostgreSQL table ai_student.materials
+         
             res = supabase_admin.schema("ai_student").table("materials").select("*").order("created_at", desc=True).execute()
             if res.data is not None:
-                # Format files for frontend consumption
+             
                 files_list = []
                 for item in res.data:
                     files_list.append({
@@ -163,7 +161,6 @@ def list_files(user: SimpleNamespace = Depends(verify_jwt)):
         except Exception as sb_err:
             print(f"Supabase list files warning (falling back to local): {sb_err}")
 
-    # Local fallback
     local_files = load_local_metadata()
     return {
         "status": "Success",
@@ -177,7 +174,7 @@ def download_file(file_id: str, user: SimpleNamespace = Depends(verify_jwt)):
     supabase_admin = get_supabase_admin()
     if supabase_admin:
         try:
-            # 1. Fetch file record from Supabase DB ai_student.materials
+        
             res = supabase_admin.schema("ai_student").table("materials").select("*").eq("id", file_id).execute()
             if res.data and len(res.data) > 0:
                 record = res.data[0]
@@ -185,7 +182,6 @@ def download_file(file_id: str, user: SimpleNamespace = Depends(verify_jwt)):
                 file_name = record.get("file_name") or "downloaded_file"
                 content_type = record.get("file_type") or "application/octet-stream"
 
-                # 2. Download file binary directly from Supabase Storage
                 file_bytes = supabase_admin.storage.from_(SUPABASE_BUCKET).download(storage_path)
                 return Response(
                     content=file_bytes,
@@ -195,7 +191,6 @@ def download_file(file_id: str, user: SimpleNamespace = Depends(verify_jwt)):
         except Exception as sb_err:
             print(f"Supabase download warning (falling back to local): {sb_err}")
 
-    # Fallback to local files
     local_files = load_local_metadata()
     target = next((f for f in local_files if f["id"] == file_id), None)
     if not target:
@@ -225,11 +220,11 @@ def delete_file(file_id: str, user: SimpleNamespace = Depends(verify_jwt)):
 
     if supabase_admin:
         try:
-            # 1. Fetch metadata record from Supabase DB ai_student.materials
+        
             res = supabase_admin.schema("ai_student").table("materials").select("*").eq("id", file_id).execute()
             if res.data and len(res.data) > 0:
                 record = res.data[0]
-                # Permission check: owner or admin
+             
                 if record.get("user_id") != uploader_id:
                     user_role = "student"
                     try:
@@ -244,14 +239,13 @@ def delete_file(file_id: str, user: SimpleNamespace = Depends(verify_jwt)):
                             detail="You do not have permission to delete this file",
                         )
 
-                # 2. Remove file from Supabase Storage
+           
                 if record.get("storage_path"):
                     try:
                         supabase_admin.storage.from_(SUPABASE_BUCKET).remove([record.get("storage_path")])
                     except Exception as st_err:
                         print(f"Supabase storage remove warning: {st_err}")
 
-                # 3. Delete metadata record from Supabase DB table ai_student.materials
                 supabase_admin.schema("ai_student").table("materials").delete().eq("id", file_id).execute()
                 return {
                     "status": "Success",
@@ -262,7 +256,7 @@ def delete_file(file_id: str, user: SimpleNamespace = Depends(verify_jwt)):
         except Exception as sb_err:
             print(f"Supabase delete warning (falling back to local): {sb_err}")
 
-    # Fallback delete for local storage
+  
     local_files = load_local_metadata()
     target = next((f for f in local_files if f["id"] == file_id), None)
     if not target:
