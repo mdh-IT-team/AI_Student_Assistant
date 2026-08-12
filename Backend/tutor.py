@@ -11,10 +11,6 @@ from pydantic import BaseModel, Field
 
 from security import verify_jwt
 
-# --- Load Backend/.env explicitly (same pattern as main.py) so this module
-# resolves GEMINI_API_KEY correctly even if it's ever imported standalone,
-# before main.py's own load_dotenv() call has run. override=False so it
-# never clobbers a value main.py already loaded. ---
 _env_path = Path(__file__).resolve().parent / ".env"
 load_dotenv(dotenv_path=_env_path, override=False)
 
@@ -23,26 +19,10 @@ GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip()
 
 MAX_MESSAGE_LENGTH = 4000
 
-# Router intentionally has NO prefix — routes below spell out the exact
-# paths the frontend already calls (see frontend/src/components/AiChatBox.jsx
-# on origin/main, which POSTs to /api/chat and reads {status, reply}). Using
-# an APIRouter(prefix=...) with an empty-string route for the primary path
-# would work too, but explicit paths remove any ambiguity about trailing
-# slashes / redirects on a cross-origin POST.
 chat_router = APIRouter(tags=["chat"])
 
-# Lazy singleton — created on first real use, never at import time. A
-# missing/invalid GEMINI_API_KEY must never crash server startup; it should
-# only fail the /api/chat request itself, with a clear error message.
 _client: Optional[genai.Client] = None
 
-# In-memory chat-session store, keyed by "{user_id}:{module or 'general'}" so
-# a student's general tutor chat and their per-module chat (AiChatBox is
-# mounted once per context in the frontend) don't share conversation memory.
-# NOTE: process-local and non-persistent by design (fits this project's
-# scope). Sessions reset on server restart and are not shared across
-# multiple uvicorn workers — acceptable for a single-process dev/demo
-# deployment, not for a horizontally-scaled production one.
 _sessions: Dict[str, object] = {}
 
 
@@ -67,10 +47,6 @@ def _get_client() -> genai.Client:
     return _client
 
 
-# AiChatBox.jsx renders replies as plain text (whiteSpace: 'pre-wrap', no
-# markdown parser) — if Gemini answers with **bold** or #headers, the user
-# sees the literal asterisks/hashes. Appended once, to every persona, so
-# markdown-suppression logic lives in exactly one place.
 PLAIN_TEXT_NOTE = (
     " Respond in plain text only — no markdown (no asterisks for bold/italics, "
     "no #headers, no backtick code fences). Use plain sentences, line breaks, "
@@ -218,6 +194,4 @@ def chat_status(current_user: SimpleNamespace = Depends(verify_jwt)):
         "model": GEMINI_MODEL,
     }
 
-
-# Backwards-compatible alias name in case anything still imports tutor_router
 tutor_router = chat_router
