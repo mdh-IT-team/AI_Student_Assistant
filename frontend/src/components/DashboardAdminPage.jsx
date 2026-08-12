@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/style.css';
 import AiChatBox from './AiChatBox';
+import FileManager from './FileManager';
 import { logout, fetchMe } from '../auth';
 import { SidebarIcons, initials } from './SidebarIcons';
 import {
@@ -10,11 +11,11 @@ import {
 
 const MENU = [
   { key: 'home',     label: 'Home',     icon: SidebarIcons.home },
-  { key: 'teachers',     label: 'Teachers',     icon: SidebarIcons.teachers },
-  { key: 'students',     label: 'Students',     icon: SidebarIcons.students },
-  { key: 'modules',     label: 'Modules',     icon: SidebarIcons.modules },
-  { key: 'aichat',     label: 'AI Chat',     icon: SidebarIcons.aichat },
-
+  { key: 'teachers', label: 'Teachers', icon: SidebarIcons.teachers },
+  { key: 'students', label: 'Students', icon: SidebarIcons.students },
+  { key: 'modules',  label: 'Modules',  icon: SidebarIcons.modules },
+  { key: 'files',    label: 'Files',    icon: SidebarIcons.files },
+  { key: 'aichat',   label: 'AI Chat',  icon: SidebarIcons.aichat },
 ];
 
 function formatDate(v) {
@@ -37,6 +38,7 @@ export default function DashboardAdminPage({ onNavigate }) {
       case 'teachers': return <TeachersSection />;
       case 'students': return <StudentsSection />;
       case 'modules':  return <ModulesSection />;
+      case 'files':    return <FileManager userEmail={userName} />;
       case 'aichat':   return <AiChatBox role="admin" userName={userName} />;
       default: return null;
     }

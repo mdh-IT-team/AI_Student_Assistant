@@ -133,3 +133,65 @@ export async function assignModules(studentId, moduleIds, previousIds = [], seme
 export function isMock(key) {
   return USE_MOCK[key];
 }
+
+/* ---------- File Management ---------- */
+
+export async function uploadFileApi(file, description = '') {
+  const token = getToken();
+  if (!token) throw new Error('Not authenticated');
+
+  const formData = new FormData();
+  formData.append('file', file);
+  if (description) formData.append('description', description);
+
+  const res = await fetch(`${BASE}/api/files/upload`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Upload failed (${res.status})`);
+  }
+  const json = await res.json();
+  if (json.status !== 'Success') throw new Error(json.message || 'Upload failed');
+  return json.file;
+}
+
+export async function fetchFilesApi() {
+  const json = await request('/api/files/list');
+  return json.files || [];
+}
+
+export async function downloadFileApi(fileId, fileName) {
+  const token = getToken();
+  if (!token) throw new Error('Not authenticated');
+
+  const res = await fetch(`${BASE}/api/files/download/${fileId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error(`Download failed (${res.status})`);
+
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName || 'downloaded-file';
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
+
+export async function deleteFileApi(fileId) {
+  const json = await request(`/api/files/${fileId}`, {
+    method: 'DELETE',
+  });
+  return json.message;
+}

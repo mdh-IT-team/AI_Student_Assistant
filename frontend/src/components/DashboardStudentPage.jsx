@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/style.css';
 import AiChatBox from './AiChatBox';
+import FileManager from './FileManager';
 import { SidebarIcons, initials } from './SidebarIcons';
 import { logout, fetchMe } from '../auth';
 import { fetchDashboard } from '../api';
@@ -8,6 +9,7 @@ import { fetchDashboard } from '../api';
 const MENU = [
   { key: 'home',    label: 'Home',     icon: SidebarIcons.home },
   { key: 'modules', label: 'Modules',  icon: SidebarIcons.modules },
+  { key: 'files',   label: 'Files',    icon: SidebarIcons.files },
   { key: 'aichat',  label: 'AI Chat',  icon: SidebarIcons.aichat },
 ];
 
@@ -72,6 +74,8 @@ export default function DashboardStudentPage({ onNavigate }) {
             userName={userName} onReload={load}
           />
         );
+      case 'files':
+        return <FileManager userEmail={userEmail} />;
       case 'aichat':
         return <AiChatBox role="student" userName={userName} />;
       default:

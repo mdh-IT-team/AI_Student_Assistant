@@ -5,554 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96f6e820-671a-4cc3-95da-f93700d2ae15" name="Changes" comment="bug fix options.data in main.py">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Sidebaricons.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AI_Stutend_Alex.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AI_Stutend_Alex.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardAdminPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardAdminPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardStudentPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardStudentPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/DashboardTeacherPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DashboardTeacherPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HomePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/AuthAdminApi.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/AuthAdminApi.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/AuthAdminApi.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/AuthAdminApi.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/AuthClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/AuthClient.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/AuthClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/AuthClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/GoTrueAdminApi.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/GoTrueAdminApi.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/GoTrueAdminApi.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/GoTrueAdminApi.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/GoTrueClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/GoTrueClient.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/GoTrueClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/GoTrueClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/index.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/base64url.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/base64url.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/base64url.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/base64url.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/constants.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/constants.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/constants.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/error-codes.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/error-codes.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/error-codes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/error-codes.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/errors.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/errors.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/errors.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/errors.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/fetch.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/fetch.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/fetch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/fetch.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/helpers.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/helpers.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/helpers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/helpers.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/local-storage.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/local-storage.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/local-storage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/local-storage.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/locks.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/locks.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/locks.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/locks.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/polyfills.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/polyfills.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/polyfills.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/polyfills.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/types.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/types.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/version.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/version.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/version.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/version.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/web3/ethereum.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/web3/ethereum.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/web3/ethereum.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/web3/ethereum.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/web3/solana.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/web3/solana.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/web3/solana.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/web3/solana.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.dom.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.dom.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.dom.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.dom.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.errors.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.errors.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.errors.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.errors.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/main/lib/webauthn.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/AuthAdminApi.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/AuthAdminApi.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/AuthAdminApi.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/AuthAdminApi.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/AuthClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/AuthClient.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/AuthClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/AuthClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/GoTrueAdminApi.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/GoTrueAdminApi.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/GoTrueAdminApi.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/GoTrueAdminApi.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/GoTrueClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/GoTrueClient.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/GoTrueClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/GoTrueClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/index.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/base64url.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/base64url.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/base64url.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/base64url.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/constants.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/constants.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/constants.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/error-codes.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/error-codes.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/error-codes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/error-codes.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/errors.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/errors.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/errors.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/errors.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/fetch.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/fetch.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/fetch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/fetch.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/helpers.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/helpers.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/helpers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/helpers.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/local-storage.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/local-storage.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/local-storage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/local-storage.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/locks.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/locks.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/locks.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/locks.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/polyfills.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/polyfills.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/polyfills.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/polyfills.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/types.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/types.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/version.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/version.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/version.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/version.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/web3/ethereum.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/web3/ethereum.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/web3/ethereum.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/web3/ethereum.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/web3/solana.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/web3/solana.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/web3/solana.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/web3/solana.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.dom.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.dom.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.dom.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.dom.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.errors.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.errors.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.errors.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.errors.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/module/lib/webauthn.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/tsconfig.module.tsbuildinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/dist/tsconfig.tsbuildinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/AuthAdminApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/AuthClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/GoTrueAdminApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/GoTrueClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/base64url.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/constants.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/error-codes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/errors.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/fetch.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/helpers.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/local-storage.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/locks.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/polyfills.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/version.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/web3/ethereum.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/web3/solana.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/webauthn.dom.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/webauthn.errors.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/auth-js/src/lib/webauthn.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/FunctionsClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/FunctionsClient.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/FunctionsClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/FunctionsClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/helper.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/helper.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/helper.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/helper.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/index.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/types.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/types.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/version.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/version.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/version.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/main/version.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/FunctionsClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/FunctionsClient.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/helper.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/helper.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/helper.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/helper.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/index.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/types.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/types.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/version.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/version.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/version.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/module/version.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/tsconfig.module.tsbuildinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/dist/tsconfig.tsbuildinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/src/FunctionsClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/src/edge-runtime.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/src/helper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/src/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/functions-js/src/version.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/ajax.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/channel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/longpoll.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/presence.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/push.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/serializer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/socket.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/timer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/assets/js/phoenix/utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/phoenix-orange.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/phoenix.cjs.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/phoenix.cjs.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/phoenix.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/phoenix.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/phoenix.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/phoenix.mjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/phoenix.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/ajax.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/ajax.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/channel.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/channel.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/constants.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/constants.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/index.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/longpoll.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/longpoll.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/presence.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/presence.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/push.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/push.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/serializer.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/serializer.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/socket.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/socket.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/timer.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/timer.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/types.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/utils.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/priv/static/types/utils.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/phoenix/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/dist/index.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/dist/index.cjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/dist/index.d.cts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/dist/index.d.cts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/dist/index.d.mts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/dist/index.d.mts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/dist/index.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/dist/index.mjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/PostgrestClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/PostgrestError.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/PostgrestFilterBuilder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/PostgrestQueryBuilder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/PostgrestTransformBuilder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/constants.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/select-query-parser/parser.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/select-query-parser/result.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/select-query-parser/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/select-query-parser/utils.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/types/common/common.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/types/common/rpc.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/types/feature-flags.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/types/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/postgrest-js/src/version.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimeChannel.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimeChannel.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimeChannel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimeChannel.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimeClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimeClient.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimePresence.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimePresence.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimePresence.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/RealtimePresence.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/index.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/constants.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/constants.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/constants.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/normalizeChannelError.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/normalizeChannelError.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/normalizeChannelError.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/normalizeChannelError.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/serializer.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/serializer.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/serializer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/serializer.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/transformers.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/transformers.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/transformers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/transformers.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/version.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/version.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/version.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/version.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/websocket-factory.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/websocket-factory.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/websocket-factory.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/lib/websocket-factory.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/channelAdapter.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/channelAdapter.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/channelAdapter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/channelAdapter.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/presenceAdapter.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/presenceAdapter.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/presenceAdapter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/presenceAdapter.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/socketAdapter.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/socketAdapter.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/socketAdapter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/socketAdapter.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/types.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/main/phoenix/types.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/index.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/constants.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/constants.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/constants.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/normalizeChannelError.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/normalizeChannelError.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/normalizeChannelError.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/normalizeChannelError.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/serializer.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/serializer.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/transformers.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/transformers.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/version.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/version.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/version.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/version.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/channelAdapter.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/channelAdapter.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/channelAdapter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/channelAdapter.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/presenceAdapter.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/presenceAdapter.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/presenceAdapter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/presenceAdapter.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/socketAdapter.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/socketAdapter.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/socketAdapter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/socketAdapter.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/types.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/types.d.ts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/types.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/module/phoenix/types.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/tsconfig.module.tsbuildinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/dist/tsconfig.tsbuildinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/RealtimeChannel.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/RealtimeClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/RealtimePresence.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/lib/constants.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/lib/normalizeChannelError.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/lib/serializer.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/lib/transformers.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/lib/version.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/lib/websocket-factory.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/phoenix/channelAdapter.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/phoenix/presenceAdapter.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/phoenix/socketAdapter.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/realtime-js/src/phoenix/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/index.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/index.cjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/index.d.cts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/index.d.cts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/index.d.mts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/index.d.mts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/index.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/index.mjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/dist/umd/supabase.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/StorageClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/lib/common/BaseApiClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/lib/common/errors.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/lib/common/fetch.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/lib/common/headers.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/lib/common/helpers.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/lib/constants.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/lib/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/lib/version.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/BlobDownloadBuilder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/StorageAnalyticsClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/StorageBucketApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/StorageFileApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/StorageVectorsClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/StreamDownloadBuilder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/VectorBucketApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/VectorDataApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/storage-js/src/packages/VectorIndexApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/cors.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/cors.cjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/cors.d.cts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/cors.d.cts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/cors.d.mts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/cors.d.mts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/cors.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/cors.mjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/index.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/index.cjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/index.d.cts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/index.d.cts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/index.d.mts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/index.d.mts.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/index.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/index.mjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/dist/umd/supabase.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/SupabaseClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/cors.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/lib/SupabaseAuthClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/lib/constants.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/lib/fetch.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/lib/helpers.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/lib/rest/types/common/common.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/lib/rest/types/common/rpc.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/lib/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@supabase/supabase-js/src/lib/version.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/dist/index.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/dist/index.cjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/dist/index.d.cts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/dist/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/dist/index.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/dist/index.mjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iceberg-js/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/CopyrightNotice.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/SECURITY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/modules/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/modules/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/modules/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/tslib.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/tslib.es6.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/tslib.es6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/tslib.es6.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/tslib.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tslib/tslib.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/RegisterPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/RegisterPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Sidebaricons.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Sidebaricons.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -580,12 +47,12 @@
     &quot;assignee&quot;: &quot;andylpzm&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/mdh-IT-team/AI_Student_Assistant.git&quot;,
-    &quot;accountId&quot;: &quot;4092befc-20b6-4761-90a1-61e2e59df711&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/mdh-IT-team/AI_Student_Assistant.git",
+    "accountId": "9a685294-4e92-4a8f-8663-f0c50e83290c"
   }
-}</component>
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -600,32 +67,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;aastha&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/shawnzy/.gemini/antigravity/scratch/AI_Student_Assistant",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Backend" />
@@ -646,7 +121,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -660,7 +134,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
       </set>
     </attachedChunks>
   </component>
@@ -682,6 +157,7 @@
       <workItem from="1784121142769" duration="4789000" />
       <workItem from="1784813090333" duration="6392000" />
       <workItem from="1785398344242" duration="14595000" />
+      <workItem from="1786545439444" duration="605000" />
     </task>
     <task id="LOCAL-00001" summary="changes to main integration get/me get/dashboard">
       <option name="closed" value="true" />

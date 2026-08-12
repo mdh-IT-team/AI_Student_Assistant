@@ -3,11 +3,13 @@ import '../styles/style.css';
 import { logout, fetchMe } from '../auth';
 import { fetchDashboard } from '../api';
 import { SidebarIcons } from './SidebarIcons';
+import FileManager from './FileManager';
 
 const TEACHER_MENU = [
   { key: 'home', label: 'Home', icon: SidebarIcons.home },
   { key: 'modules', label: 'Modules', icon: SidebarIcons.modules },
   { key: 'students', label: 'Students', icon: SidebarIcons.students },
+  { key: 'files', label: 'Files', icon: SidebarIcons.files },
   { key: 'aichat', label: 'AI Chat', icon: SidebarIcons.aichat },
 ];
 
@@ -587,6 +589,10 @@ async function handleChangePassword(event) {
               ✕
             </button>
           </div>
+        )}
+
+        {!loading && !error && activeSection === 'files' && (
+          <FileManager userEmail={fullName || userName} />
         )}
 
         {!loading && !error && activeSection === 'home' && (
