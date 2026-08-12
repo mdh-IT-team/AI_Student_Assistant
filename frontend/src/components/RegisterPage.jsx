@@ -19,7 +19,6 @@ export default function RegisterPage({ onNavigate }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ full_name: name, email, password }),
         body: JSON.stringify({ email, password, full_name: name }),
       });
 
