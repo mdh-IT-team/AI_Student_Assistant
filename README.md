@@ -1,125 +1,190 @@
 # AI Student Assistant
 
-This repository contains the full-stack code for the AI Student Assistant. The project is designed to help students study, manage tasks, and track progress using AI. It is split into a React frontend and a secure FastAPI (Python) backend connected to a Supabase database.
+Full-stack code for the AI Student Assistant, a study platform that gives each student an
+AI tutor scoped to the modules they are actually enrolled in. A React frontend talks to a
+FastAPI backend, which is the only thing that touches the Supabase database.
 
-## Repository Structure
-* `/Backend` - FastAPI server, JWT security logic, and Supabase database integration.
-* `/frontend` - React (Vite) application, authentication state, and protected routing.
+## Repository structure
+
+* `/Backend` — FastAPI server, JWT security, Supabase integration, file storage and the Gemini chat.
+* `/frontend` — React (Vite) application, authentication state and role-based routing.
 
 ---
 
-## Part 1: Backend Setup (FastAPI)
-
-The backend handles user authentication, secure route management via JWTs, and database interactions.
+## Part 1: Backend setup (FastAPI)
 
 ### Prerequisites
-* **Python 3.8+**
-* A **Supabase** project
 
-### 1. Environment Setup
-You need to provide your local server with your Supabase connection strings.
-Create a new file named `.env` inside the `Backend/` directory and add your credentials:
+* **Python 3.11 or newer** (tested on 3.14)
+* The five **`.env`** values, listed in the document submitted with this project
+
+### 1. Environment
+
+Copy the example file and paste in the values from the submitted document:
+
+```
+cd Backend
+cp .env.example .env
+```
+
+`.env` needs five variables:
 
 ```
 SUPABASE_URL="your-supabase-project-url-here"
 SUPABASE_KEY="your-supabase-anon-key-here"
 SUPABASE_SERVICE_ROLE_KEY="your-supabase-service-role-key-here"
+GEMINI_API_KEY="your-gemini-api-key-here"
+GEMINI_MODEL="gemini-2.5-flash"
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` comes from Project Settings -> API -> the `service_role` secret.
-It bypasses Row Level Security and is used **only** for backend-owned system writes
-(e.g. mirroring a new Auth user into `ai_student.users`/`profile`). Never send this key
-to the frontend.
+Without `GEMINI_API_KEY` the server still starts, but `/api/chat` returns HTTP 503 and
+`GET /api/chat/status` reports `"configured": false`.
 
-### 2. Installation (Virtual Environment)
-It is highly recommended to use a virtual environment so you don't clutter your global Python installation. Open your terminal and navigate to the backend folder:
+`SUPABASE_SERVICE_ROLE_KEY` bypasses Row Level Security and is used only for backend-owned
+writes, such as mirroring a new Auth user into `ai_student.users` and `ai_student.profile`.
+Never send it to the frontend.
 
-```
-cd Backend
-```
+### 2. Install (virtual environment)
 
-Create and activate the virtual environment:
+A virtual environment keeps this off your global Python install.
 
-**On Mac/Linux:**
+**macOS / Linux**
 ```
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-**On Windows:**
+**Windows**
 ```
 python -m venv venv
 venv\Scripts\activate
 ```
 
-With the virtual environment active, install the required dependencies:
+With it active:
 
 ```
-pip install fastapi "uvicorn[standard]" supabase pydantic python-dotenv
+pip install -r requirements.txt
 ```
 
-### 3. Running the Server
-Once everything is installed, start the FastAPI development server:
+### 3. Run the server
 
 ```
 python3 main.py
 ```
 
-The backend server will run on `http://localhost:8000`. You can test the API endpoints and the JWT security guard interactively by visiting the built-in Swagger UI at http://localhost:8000/docs.
+The backend listens on **http://localhost:8000**, and the interactive Swagger UI is at
+http://localhost:8000/docs. You can exercise every endpoint from there, including the
+JWT guard, by pasting a token into **Authorize**.
 
-### 4. Verified API Endpoints
-The following endpoints have been fully integrated, secured, and tested. You can interact with these directly via the Swagger UI or your frontend client. 
+The port matters: the frontend currently hardcodes `http://localhost:8000`, so the backend
+has to run on 8000.
 
-**Public Routes (No Authentication Required)**
-* **`GET /`** : Health check to confirm the server is running and actively connected to the Supabase instance.
-* **`GET /test`** : A simple developer test route to verify standard JSON responses.
-* **`POST /auth/register`** : Accepts a JSON payload (`email`, `password`) to create a new user. Includes explicit validation to catch and reject duplicate email registrations gracefully.
-* **`POST /auth/login`** : Authenticates a user and returns a secure JWT access token alongside the user ID.
-* **`POST /logout`** : Terminates the active Supabase authentication session.
+### 4. API endpoints
 
-**Protected Routes (Require JWT Authentication)**
-*Note: Requests to these endpoints must include a valid JWT in the headers: `Authorization: Bearer <your_token>`.*
+27 endpoints. Protected routes need `Authorization: Bearer <token>`; role-restricted routes
+return 403 if the caller's role is wrong. The role is read from the database on every request,
+never from the token.
 
-* **`GET /api/me`** : Extracts the authenticated user info.
-* **`GET /api/dashboard/{role}`** : A role-specific route (admin / teacher / student) that queries the database schema. It joins core account information from the users table with specific academic details (semester, studying modules, teaching modules) from the profile table to deliver a compiled dashboard payload.
-* **`POST /api/chat`** : Powers the AI Assistant chat box on each dashboard. Accepts a JSON payload (message, and an optional role which the backend re-verifies against the database rather than trusting the client). Returns { status, reply, role }. Currently returns a role-aware placeholder response — real LLM integration (Gemini) is planned but not yet wired in.
+**Public**
 
-## Part 2: Frontend Setup (React + Vite)
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/` | Health check, confirms the Supabase connection |
+| GET | `/test` | Developer test route |
+| POST | `/auth/register` | Register with email, password and full name. Rejects duplicates |
+| POST | `/auth/login` | Authenticate, returns a JWT and the user id |
+| POST | `/logout` | End the Supabase session |
+| POST | `/auth/forgot-password` | Trigger a password reset email |
 
-The frontend handles the user interface, authentication state management, and protected routing.
+**Authenticated (any role)**
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/me` | Current user, with the role resolved from the database |
+| GET | `/api/users/{user_id}` | Profile lookup via `user_profile_view` |
+| POST | `/auth/change-password` | Change your own password |
+| POST | `/api/chat` | Ask the AI tutor. Calls Gemini with the caller's role and modules |
+| GET | `/api/chat/status` | Whether a Gemini key is configured, and which model |
+| POST | `/api/chat/reset` | Clear the current conversation |
+| POST | `/api/files/upload` | Upload material |
+| GET | `/api/files/list` | List material |
+| GET | `/api/files/download/{file_id}` | Download a file |
+| DELETE | `/api/files/{file_id}` | Delete a file |
+
+**Admin only**
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/admin/users` | All users, newest first |
+| PUT | `/admin/users/{user_id}/role` | Change a user's role |
+| POST | `/admin/create-teacher` | Invite a teacher by email |
+| POST | `/admin/create-student` | Invite a student by email |
+| POST | `/api/modules` | Create a module and assign it to a teacher |
+| GET | `/api/dashboard/admin` | Institution-wide counts |
+
+**Teacher (or admin)**
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/dashboard/teacher` | Modules owned by this teacher and their enrolled students |
+| POST | `/api/modules/{module_id}/enroll/{student_id}/{semester}` | Enrol a student. Semester must be 1–7 |
+| DELETE | `/api/modules/{module_id}/enroll/{student_id}` | Remove a student from a module |
+| GET | `/api/modules/{module_id}/students` | Module roster |
+
+**Student (or admin)**
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/dashboard/student` | Enrolled modules and current semester |
+
+Dashboards read the `modules` and `enrollments` tables. Enrolment is a real record — which
+student, which module, which semester, since when — rather than a text field on a profile.
+
+---
+
+## Database setup
+
+Nothing to set up. The Supabase keys in the submitted document point at the team's existing
+project, which already has the `ai_student` schema, the tables, the Row Level Security policies
+and the `materials` storage bucket. Fill in `.env` and the database is ready.
+
+---
+
+## Part 2: Frontend setup (React + Vite)
 
 ### Prerequisites
+
 * **Node.js 18+**
 * **npm**
 
-### 1. Installation
-The following commands are the same on Mac, Linux, and Windows. Open your terminal and navigate to the frontend folder:
+### 1. Install
 
 ```
 cd frontend
-```
-
-Install the required dependencies:
-
-```
 npm install
 ```
 
-### 2. Running the App
-Once everything is installed, start the Vite development server:
+### 2. Run
 
 ```
 npm run dev
 ```
 
-The frontend will run on `http://localhost:5173`. Open this URL in your browser to use the application.
-### 2. AI Chat Assistant
-Each dashboard (Admin, Teacher, Student) includes an AI chat box powered by a single reusable component:
-``frontend/src/components/AiChatBox.jsx.``
+The frontend serves on **http://localhost:5173**. Start the backend first, since the frontend
+calls `http://localhost:8000` directly.
 
-** `Renders a scrollable message thread plus a text input, styled to match the existing dashboard panels.`
-** `Takes a role prop ("admin", "teacher", or "student") that controls its greeting, subtitle, and placeholder text so the same component feels tailored to whoever is using it.`
-** `On send, POSTs { message, role } to POST /api/chat with the user's auth token attached, and renders whatever reply comes back.`
-** `Used in DashboardAdminPage.jsx, DashboardTeacherPage.jsx, and DashboardStudentPage.jsx in place of the old static chat input.`
+### 3. AI chat
 
-Current limitation: the backend endpoint it talks to (POST /api/chat) does not yet call a real AI model — it returns a canned, role-aware placeholder reply so the full pipeline (auth → role lookup → response → display) can be tested end-to-end. Connecting this to Gemini is a planned next step.
+The student and admin dashboards use one reusable chat component,
+`frontend/src/components/AiChatBox.jsx`:
+
+* Renders a scrollable message thread and an input, styled to match the dashboard panels.
+* Takes a `role` prop (`admin`, `teacher` or `student`) that changes the greeting, subtitle
+  and placeholder, so the same component reads as tailored to whoever is using it.
+* On send, POSTs `{ message, role }` to `/api/chat` with the user's token attached. The backend
+  re-verifies the role against the database rather than trusting the client, then calls Gemini.
+* If the request fails it shows a visible notice and falls back to a clearly labelled local reply,
+  so a broken backend never looks like a working assistant.
+
+The teacher dashboard still has a placeholder chat input that does not call the API. Replacing
+it with `AiChatBox` is outstanding.
