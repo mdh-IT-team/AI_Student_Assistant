@@ -83,11 +83,18 @@ const [changingPassword, setChangingPassword] = useState(false);
                 ? student.enrolled_modules
                 : [];
 
-              return enrolledModules.some(enrolledModule =>
-                moduleIdentifiers.includes(
-                  String(enrolledModule).trim().toUpperCase()
-                )
-              );
+              // enrolled_modules is an array of objects, not strings:
+              // { module_name, module_code, semester }
+              return enrolledModules.some(enrolledModule => {
+                const candidates = typeof enrolledModule === 'string'
+                  ? [enrolledModule]
+                  : [enrolledModule?.module_name, enrolledModule?.module_code];
+                return candidates
+                  .filter(Boolean)
+                  .some(value =>
+                    moduleIdentifiers.includes(String(value).trim().toUpperCase())
+                  );
+              });
             }),
             materials: Array.isArray(module.materials)
               ? module.materials
