@@ -111,20 +111,198 @@ const [changingPassword, setChangingPassword] = useState(false);
       .finally(() => setLoading(false));
   }, []);
 
+  function getMaterialName(material) {
+    if (typeof material === 'string') return material;
+
+    return (
+      material?.name ||
+      material?.file_name ||
+      material?.filename ||
+      'Untitled material'
+    );
+  }
+
+  function getMaterialUrl(material) {
+    if (!material || typeof material === 'string') return '';
+
+    return (
+      material.url ||
+      material.public_url ||
+      material.file_url ||
+      material.download_url ||
+      ''
+    );
+  }
+
+  function createLocalMaterial(file) {
+    return {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      name: file.name,
+      originalName: file.name,
+      type: file.type,
+      size: file.size,
+      url: URL.createObjectURL(file),
+      localFile: file,
+    };
+  }
+
   function handleFileUpload(moduleId, event) {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (!file) return;
 
-    // Existing behaviour kept unchanged.
-    // TODO (backend): upload the file to Supabase Storage here.
+    const newMaterial = createLocalMaterial(file);
+
+    // This keeps the existing frontend behaviour.
+    // Connect this function to your Supabase Storage upload endpoint
+    // when that backend route is available.
     setModules(prev =>
-      prev.map(m =>
-        m.id === moduleId ? { ...m, materials: [...m.materials, file.name] } : m
+      prev.map(module =>
+        module.id === moduleId
+          ? {
+              ...module,
+              materials: [...module.materials, newMaterial],
+            }
+          : module
       )
     );
 
     setSuccessMessage(`${file.name} added to the selected module.`);
     event.target.value = '';
+  }
+
+  function handleViewMaterial(material) {
+    const url = getMaterialUrl(material);
+
+    if (!url) {
+      setError(
+        'This material has no downloadable URL. It must be uploaded to storage before it can be viewed after refreshing.'
+      );
+      return;
+    }
+
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
+  function handleRenameMaterial(moduleId, materialIndex) {
+    const module = modules.find(item => item.id === moduleId);
+    const material = module?.materials?.[materialIndex];
+
+    if (!material) return;
+
+    const currentName = getMaterialName(material);
+    const enteredName = window.prompt(
+      'Enter the new material name:',
+      currentName
+    );
+
+    if (enteredName === null) return;
+
+    const newName = enteredName.trim();
+
+    if (!newName) {
+      setError('Material name cannot be empty.');
+      return;
+    }
+
+    setModules(prev =>
+      prev.map(item => {
+        if (item.id !== moduleId) return item;
+
+        return {
+          ...item,
+          materials: item.materials.map((existingMaterial, index) => {
+            if (index !== materialIndex) return existingMaterial;
+
+            if (typeof existingMaterial === 'string') {
+              return {
+                id: `${moduleId}-${materialIndex}`,
+                name: newName,
+                originalName: existingMaterial,
+                url: '',
+              };
+            }
+
+            return {
+              ...existingMaterial,
+              name: newName,
+            };
+          }),
+        };
+      })
+    );
+
+    setError('');
+    setSuccessMessage(
+      `${currentName} renamed to ${newName} successfully.`
+    );
+  }
+
+  function handleReplaceMaterial(moduleId, materialIndex, event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const replacement = createLocalMaterial(file);
+
+    setModules(prev =>
+      prev.map(module => {
+        if (module.id !== moduleId) return module;
+
+        return {
+          ...module,
+          materials: module.materials.map((material, index) => {
+            if (index !== materialIndex) return material;
+
+            const oldUrl = getMaterialUrl(material);
+
+            if (oldUrl?.startsWith('blob:')) {
+              URL.revokeObjectURL(oldUrl);
+            }
+
+            return replacement;
+          }),
+        };
+      })
+    );
+
+    setError('');
+    setSuccessMessage(`${file.name} replaced the old material successfully.`);
+    event.target.value = '';
+  }
+
+  function handleDeleteMaterial(moduleId, materialIndex) {
+    const module = modules.find(item => item.id === moduleId);
+    const material = module?.materials?.[materialIndex];
+
+    if (!material) return;
+
+    const materialName = getMaterialName(material);
+    const confirmed = window.confirm(
+      `Delete "${materialName}" from ${module.name}?`
+    );
+
+    if (!confirmed) return;
+
+    const materialUrl = getMaterialUrl(material);
+
+    if (materialUrl?.startsWith('blob:')) {
+      URL.revokeObjectURL(materialUrl);
+    }
+
+    setModules(prev =>
+      prev.map(item =>
+        item.id === moduleId
+          ? {
+              ...item,
+              materials: item.materials.filter(
+                (_, index) => index !== materialIndex
+              ),
+            }
+          : item
+      )
+    );
+
+    setError('');
+    setSuccessMessage(`${materialName} deleted successfully.`);
   }
 
   function handleSendChat() {
@@ -874,11 +1052,115 @@ async function handleChangePassword(event) {
                     </p>
                   )}
 
-                  {module.materials.map((file, i) => (
-                    <div className="task-item" key={i}>
-                      <span style={{ fontSize: '0.85rem' }}>
-                        📄 {file}
-                      </span>
+                  {module.materials.map((material, index) => (
+                    <div
+                      className="task-item"
+                      key={
+                        material?.id ||
+                        `${module.id}-${getMaterialName(material)}-${index}`
+                      }
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        gap: '12px',
+                      }}
+                    >
+                      <div style={{ minWidth: 0 }}>
+                        <span
+                          style={{
+                            fontSize: '0.85rem',
+                            overflowWrap: 'anywhere',
+                          }}
+                        >
+                          📄 {getMaterialName(material)}
+                        </span>
+
+                        {typeof material !== 'string' && material?.size && (
+                          <div
+                            style={{
+                              marginTop: '3px',
+                              fontSize: '0.72rem',
+                              color: '#94a3b8',
+                            }}
+                          >
+                            {(material.size / 1024).toFixed(1)} KB
+                          </div>
+                        )}
+                      </div>
+
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '6px',
+                          flexWrap: 'wrap',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        <button
+                          type="button"
+                          className="btn-outline"
+                          style={{
+                            padding: '6px 9px',
+                            fontSize: '0.75rem',
+                          }}
+                          onClick={() => handleViewMaterial(material)}
+                        >
+                          👁 View
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn-outline"
+                          style={{
+                            padding: '6px 9px',
+                            fontSize: '0.75rem',
+                          }}
+                          onClick={() =>
+                            handleRenameMaterial(module.id, index)
+                          }
+                        >
+                          ✏️ Rename
+                        </button>
+
+                        <label
+                          className="btn-outline"
+                          style={{
+                            padding: '6px 9px',
+                            fontSize: '0.75rem',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          🔄 Replace
+                          <input
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={event =>
+                              handleReplaceMaterial(
+                                module.id,
+                                index,
+                                event
+                              )
+                            }
+                          />
+                        </label>
+
+                        <button
+                          type="button"
+                          className="btn-outline"
+                          style={{
+                            padding: '6px 9px',
+                            fontSize: '0.75rem',
+                            color: '#dc2626',
+                            borderColor: '#fecaca',
+                          }}
+                          onClick={() =>
+                            handleDeleteMaterial(module.id, index)
+                          }
+                        >
+                          🗑 Delete
+                        </button>
+                      </div>
                     </div>
                   ))}
 
